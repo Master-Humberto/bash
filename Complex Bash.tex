@@ -1,0 +1,904 @@
+\documentclass{article}
+\usepackage{graphicx} % Required for inserting images
+\usepackage{draftwatermark}
+\usepackage{tikz}
+\usepackage{amsfonts} 
+\usepackage{amsmath}
+\usepackage{emoji}
+\SetWatermarkText{BASH}
+\SetWatermarkScale{1}
+\usepackage{fontspec}
+\usetikzlibrary{calc}
+\usepackage{tkz-euclide}
+\setmainfont{Arial}
+\usepackage{asymptote}
+\usepackage{lipsum}
+\usetikzlibrary{angles,quotes}
+% \usepackage{hyperref}
+\tcbuselibrary{skins}
+\usepackage{emoji}
+\usetikzlibrary{decorations.markings}
+\renewcommand*\contentsname{Summary}
+
+\usepackage[most]{tcolorbox}
+\renewcommand*\contentsname{Summary}
+\usepackage{hyperref}
+\title{Complex bash}
+\author{Master Humberto}
+\date{Copia não comédia}
+
+\begin{document}
+
+\maketitle
+\tableofcontents
+
+\section{Introdução aos complexos}
+
+Os números complexos foram "inventados" para satisfazer aquelas equações sem solução, por exemplo, equações do segundo grau em que o delta fosse menor que zero. Usa-se a unidade imaginária \textit{i}, que é igual a $\sqrt{-1}$ multiplicada a um número real para se fazer a "parte imaginária do número complexo". Os números complexos são feitos da forma $z = a + bi$, em que $a,b \in \mathbb{R}$. Mas como usar isso em  geometria ? Existe um plano chamado de plano de Argand-Gauss em que o eixo x é substituido pela parte real do número complexo e o eixo y é substituído pela parte imaginária  do número complexo. Sendo z = $a + bi$, tem-se representado esse número como na figura abaixo.
+\begin{center}
+\begin{tikzpicture}
+  % Draw the axes
+  \draw[->] (-1,0) -- (4,0) node[right] {$\mathbb{R}$};
+  \draw[->] (0,-1) -- (0,4) node[above] {$\mathbb{C}$};
+  
+  % Draw point "a" at (2,0)
+  \fill (2,0) circle (2pt) node[below] {$a$};
+  
+  % Draw point "b" at (0,3)
+  \fill (0,3) circle (2pt) node[left] {$b$};
+  \draw[blue, thick] (2,0) -- (2,3) -- (0,3);
+   \fill[red] (2,3) circle (2pt) node [right] {$z = a +bi$};
+\end{tikzpicture}
+\end{center}
+
+Os números completos também podem ser representados na sua forma polar, que, ao invés de  ter um "a" e "b" como parâmetros, tem-se r e $\theta$, com o número sendo escrito como $z = r \cdot e^{i \theta}$, sendo $e^{i \theta} = cos(\theta) + i sen(\theta)$(a prova disso pode ser feita analisando os polinômios de Taylor de $e^x, sen(x), cos(x)$, deixo como exercício para o leitor. Mas o que é "r" e $"\theta"$ ? O "r" é a magnitude do número complexo z, ou seja, a distância de z à origem do sistema de coordendas, ou seja, se $z = a + bi$, $r = \sqrt{a^2 + b^2}$ por Pitágoras. Já $"\theta"$ é o ângulo que o número complexo faz com o semi-eixo x positivo, medido em radianos. Para simplificar, vou fazer uma  figura abaixo.
+\begin{center}
+\begin{tikzpicture}
+  % Draw the axes
+  \draw[->] (-1,0) -- (4,0) node[right] {$\mathbb{R}$};
+  \draw[->] (0,-1) -- (0,4) node[above] {$\mathbb{C}$};
+  
+  % Draw point "a" at (2,0)
+  \fill (2,0) circle (2pt) node[below] {$a$};
+  
+  % Draw point "b" at (0,3)
+  \fill (0,3) circle (2pt) node[left] {$b$};
+  \fill (2,3) circle (2pt) node [right] {z = a + bi};
+  % Calculate the argument of z = 2 + 3i
+  \pgfmathanglebetweenpoints{\pgfpoint{0cm}{0cm}}{\pgfpoint{2cm}{3cm}}
+  \let\alpha\pgfmathresult
+  \draw[blue, thick] (2,0) -- (2,3) -- (0,3);
+  \draw[blue, thick] (0,0) -- (2,3) node[midway, above] {$r$};
+  % Draw an arc to represent the argument theta
+  \draw (0.5,0) arc (0:\alpha:0.5cm);
+  
+  % Label the arc as "theta"
+  \node at (0.7,0.3) {$\theta$};
+\end{tikzpicture}
+\end{center}
+
+\subsection{Conjugado complexo}
+
+O conjugado complexo será bastante explorado aqui no material. Basicamente, se temos um número complexo $z = a+ bi$, $\overline{z}$(conjugado)$= a - bi$. Isso representa, por exemplo, a reflexão de z sobre o eixo dos reais. Como representado na figura abaixo.
+\begin{center}
+\begin{tikzpicture}[scale = 0.7]
+  % Draw the axes
+  \draw[->] (-1,0) -- (4,0) node[right] {$\mathbb{R}$};
+  \draw[->] (0,-1) -- (0,4) node[above] {$\mathbb{C}$};
+  
+  % Draw point "a" at (2,0)
+  \fill (2,0) circle (2pt) node[below] {$a$};
+  
+  % Draw point "b" at (0,3)
+  \fill (0,3) circle (2pt) node[left] {$b$};
+  
+  % Calculate the argument of z = 2 + 3i
+  \pgfmathanglebetweenpoints{\pgfpoint{0cm}{0cm}}{\pgfpoint{2cm}{3cm}}
+  \let\alpha\pgfmathresult
+  
+  % Draw complex number 2 - 3i
+  \fill (2,-3) circle (2pt) node[right] {$z = a - bi$};
+    \fill (2,3) circle (2pt) node [right] {$z = a + bi$};
+    \draw[red, thick] (0,0) -- (2,3) node[midway,below] {$r$};
+    
+  % Draw a line from the origin to 2 - 3i
+  \draw[red, thick] (0,0) -- (2,-3);
+  
+  % Label the angle as "theta"
+  \node at (0.7,0.3) {$\theta$};
+  
+  % Label the distance from the origin as "r"
+  \node[red] at (1.2,-1.5) {$r$};
+  
+  % Draw an arc to represent the argument theta of 2 - 3i
+  \draw (0.5,0) arc (0:\alpha:0.5cm);
+  \draw(0.28,-0.4) arc (-\alpha:0:0.5cm);
+   \node at (0.7,-0.3) {$\theta$};
+   \draw[thick] (2,-3) -- (2,3);
+  \node[red] at (2,1.5) {=};
+  \node[red] at (2,-1.5) {=};
+\end{tikzpicture}
+\end{center}
+
+E, além de ser a reflexão, o conjugado complexo tem a prorpiedade de que $z \cdot \overline{z} = |z|^2$, com $|z|$ sendo o módulo de z ou  "r".
+
+\section{Transformações geométricas com números complexos}
+
+Os números complexos, por serem parecidos com vetores, tem propriedades interessantes, como, por exemplo, a de que, se colocarmos m * z, com m sendo um número real, temos um novo número complexo de tamanho "m vezes" o número complexo z, assim como na multiplicação de vetor po um escalar. Além disso, se multiplicarmos um número complexo $z = r \cdot e^{i \theta}$ por $w = r' \cdot e^{i \alpha}$, você tem um vetor de magnitude $r \cdot r'$ e argumento $e^{i(\theta + \alpha)}$, devido ao fato de que a multiplicação de potências de mesma base faz-se somar os expoentes. Dessa forma, temos que a rotação e translação, além da dilatação de um número complexo são bem simples. E, caso quisermos, podemos rotacionar e transladar toda a figura apenas multiplicando os vértices dela por um complexo w, criando uma figura semelhante à anterior.
+\begin{center}
+\begin{tikzpicture}
+  % Draw the x and y axes
+  \draw[->] (-4,0) -- (4,0) node[right] {$\mathbb{R}$};
+  \draw[->] (0,-1) -- (0,4) node[above] {$\mathbb{C}$};
+  
+  % Draw the original square
+  \draw[blue] (2,2) -- (2,3) -- (3,3) -- (3,2) -- cycle;
+  
+  % Calculate the coordinates of the rotated square
+  \coordinate (A) at (2,2);
+  \coordinate (B) at (3,3);
+  \coordinate (C) at (2,3);
+  \coordinate (D) at (3,2);
+  
+  \coordinate (A_rotated) at (-2,2);
+  \coordinate (B_rotated) at (-2,3);
+  \coordinate (C_rotated) at (-3,3);
+  \coordinate (D_rotated) at (-3,2);
+  
+  % Draw the rotated square
+  \draw[red] (A_rotated) -- (B_rotated) -- (C_rotated) -- (D_rotated) -- cycle;
+\draw[thick] (0,0) -- (2,2);
+\draw[thick] (0,0) -- (3,3);
+\draw[thick] (0,0) -- (2,3);
+\draw[thick] (0,0) -- (3,2);
+\draw[thick] (0,0) -- (-2,2);
+\draw[thick] (0,0) -- (-2,3);
+\draw[thick] (0,0) -- (-3,3);
+\draw[thick] (0,0) -- (-3,2);
+\node[thick] at (0,-2) {Quadrado rotacionado em 90 graus no sentido anti-horário};
+\end{tikzpicture}
+\end{center}
+
+\section{Algumas fórmulas e noções}
+
+Uma das noções mais básicas de números complexos são algumas "fórmulas" que são derivadas imediatamente do fato de que números complexos são como vetores. Disso, tem-se que : 
+\begin{enumerate}
+    \item Baricentro G do triângulo de vértices a,b,c é $\frac{a+b+c}{3}$
+    \item O ponto médio do segmento de vértices a,b e $\frac{a+b}{2}$
+    \item O paralelogramo ABCD de números complexos a,b,c,d respeita a relação a + c = b + d, com a volta sendo válida(ou seja, da equação, você prova que é um paralelogramo certo quadrilátero).
+\end{enumerate}
+\subsection{Reflexão Complexa}
+Outra fórmula que podemos enunciar é a fórmula da reflexão complexa, que podemos achá-la usando o fato de que o conjugado de z é a reflexão de z sobre o eixo real, dessa forma, basta "levarmos" a figura ao eixo real.
+
+\begin{tikzpicture}[scale = 0.4]
+  % Draw the real axis
+  \draw[->] (-4,0) -- (4,0) node[right] {$\mathbb{R}$};
+  
+  % Draw the imaginary axis
+  \draw[->] (0,-4) -- (0,4) node[above] {$\mathbb{C}$};
+  
+  % Complex numbers
+  \coordinate (z1) at (1,2);
+  \coordinate (z2) at (1,1);
+  \coordinate (z3) at (3,3);
+  \coordinate (z1_reflected) at (2,1);
+  
+  % Reflect z1 over the line containing z2 and z3
+
+  
+  % Draw complex numbers
+  \fill (z1) circle (3pt) node[right] {$z$};
+  \fill (z2) circle (3pt) node[right] {$a$};
+  \fill (z3) circle (3pt) node[right] {$b$};
+  \fill (z1_reflected) circle (3pt) node[right] {$w$};
+  
+  % Draw the line containing z2 and z3
+  \draw[dashed] (z2) -- (z3);
+  
+  % Draw the reflection line (perpendicular to the line containing z2 and z3)
+  \draw[dashed] (z1) -- (z1_reflected);
+\end{tikzpicture}
+\begin{tikzpicture}[scale = 0.4]
+  % Draw the real axis
+  \draw[->] (-4,0) -- (4,0) node[right] {$\mathbb{R}$};
+  
+  % Draw the imaginary axis
+  \draw[->] (0,-4) -- (0,4) node[above] {$\mathbb{C}$};
+  
+  % Complex numbers
+  \coordinate (z1) at (0,1);
+  \coordinate (z2) at (0,0);
+  \coordinate (z3) at (2,2);
+  \coordinate (z1_reflected) at (1,0);
+  
+  % Reflect z1 over the line containing z2 and z3
+
+  
+  % Draw complex numbers
+  \fill (z1) circle (3pt) node[right] {$z-a$};
+  \fill (z2) circle (3pt) node[right] {$0$};
+  \fill (z3) circle (3pt) node[above, left] {$b-a$};
+  \fill (z1_reflected) circle (3pt) node[right] {$w-a$};
+  
+  % Draw the line containing z2 and z3
+  \draw[dashed] (z2) -- (z3);
+  
+  % Draw the reflection line (perpendicular to the line containing z2 and z3)
+  \draw[dashed] (z1) -- (z1_reflected);
+\end{tikzpicture}
+
+\begin{tikzpicture}[scale = 0.4]
+  % Draw the real axis
+  \draw[->] (-4,0) -- (4,0) node[right] {$\mathbb{R}$};
+  
+  % Draw the imaginary axis
+  \draw[->] (0,-4) -- (0,4) node[above] {$\mathbb{C}$};
+  
+  % Complex numbers
+  \coordinate (z1) at (1,1);
+  \coordinate (z2) at (0,0);
+  \coordinate (z3) at (1,0);
+  \coordinate (z1_reflected) at (1,-1);
+  
+  % Reflect z1 over the line containing z2 and z3
+
+  
+  % Draw complex numbers
+  \fill (z1) circle (3pt) node[right] {$z-a/b-a$};
+  \fill (z2) circle (3pt) node[right] {$0$};
+  \fill (z3) circle (3pt) node[right] {$1$};
+  \fill (z1_reflected) circle (3pt) node[left] {$w-a/b-a$};
+  
+  % Draw the line containing z2 and z3
+  \draw[dashed] (z2) -- (z3);
+  
+  % Draw the reflection line (perpendicular to the line containing z2 and z3)
+  \draw[dashed] (z1) -- (z1_reflected);
+\end{tikzpicture}
+
+Para isso, como na figura acima, primeiro subtrai-se a em  todas as coordendas para levá-la à origem e depois as divide por b-a. Dessa forma, temos que $\overline{\frac{z-a}{b-a}} = \frac{w-a}{b-a}$. E, fazendo as continhas, obtém-se que : 
+
+
+\begin{tcolorbox}[colback=blue!5!white,colframe=blue!75!black,title=Reflexão Complexa\emoji{nerd-face}]
+A reflexão de z sobre a reta AB, de coordendas a,b é dada por : 
+
+$$\frac{(a-b) \overline{z} + \overline{a}b - a \overline{b}}{\overline{a}- \overline{b}}$$
+
+\end{tcolorbox}
+
+Para calcular o pé da perpendicular complexa usando isso, basta usar o fato de que o ponto médio entre o ponto e a reflexão é esse ponto.
+
+\section{Colinearidade e Perpendicularidade}
+
+Para descobrir se duas retas são colineares, basta usar a fórmula do coeficiente angular complexo, que é dada por : 
+
+\begin{tcolorbox}[colback=blue!5!white,colframe=blue!75!black,title=Coeficiente angular complexo\emoji{nerd-face}]
+O coeficiente angular da reta AB é dada por : 
+$$\frac{a-b}{\overline{a} - \overline{b}}$$
+
+\end{tcolorbox}
+
+Você pode provar isso usando o fato de que isso é equivalente ao coeficiente angular da reta, que é aprendido no módulo de Coordbash. Dessa forma, para que três pontos sejam colineares, basta que : 
+
+$$\frac{z-a}{z-b} = \overline{\frac{z-a}{z-b}}$$
+\footnote{Se a vida te der limões, faça uma limonada e,caso te dê muitas interseções, chore calado.}
+\\
+AB é perpendicular a CD se e somente se (usando que os coeficientes angulares são opostos) :
+
+$$\frac{a-b}{\overline{a} - \overline{b}} = - \frac{c-d}{\overline{c} - \overline{d}}$$
+
+\begin{tcolorbox}[colback=blue!5!white,colframe=blue!75!black,title=Área complexa\emoji{nerd-face}]
+A área do triângulo de vértices a,b,c é dada por : 
+$$
+\frac{i}{4} \cdot 
+\begin{vmatrix}
+a & \overline{a} & 1 \\
+b & \overline{b} & 1 \\
+c & \overline{c} & 1 \\
+\end{vmatrix}
+$$
+\end{tcolorbox}
+
+\section{Círculo Unitário}
+
+O círculo unitário é uma das ferramentas mais poderosas na hora de se resolver problemas de geometria com complexos, pois, como $z \cdot \overline{z} = |z|^2$, se o ponto fica no círculo  unitário (centro no 0 e raio 1), o módulo dele é igual a $1$ e, dessa forma, tem-se que $\overline{z} = \frac{1}{z}$, o que facilita bastante as contas em muitos casos.
+\begin{center}
+\begin{tikzpicture}
+  % Draw the unit circle
+  \draw (0,0) circle [radius=2];
+   \draw[->] (-3,0) -- (3,0) node[right] {$\mathbb{R}$};
+  \draw[->] (0,-3) -- (0,3) node[above] {$\mathbb{C}$};
+  % Define the coordinates of the points
+  \coordinate (A) at ({sqrt(2)}, {-sqrt(2)});
+  \coordinate (B) at ({-sqrt(2)}, {-sqrt(2)});
+  \coordinate (C) at (-1,{sqrt(3)});
+% \coordinate(D) at (-0.9380927988944993,-1.264845275045361);
+% \coordinate(E) at (0.4309463489851838,0.10419387283432113);
+% \coordinate(F) at (-1.305777598610757,-0.8971604753291035);
+% \coordinate(H) at (-0.9380927988944993,-0.944098960399264)
+   \draw (A) -- (B) -- (C) -- cycle;
+  % Draw and label the points
+  \fill[red] (A) circle (2pt) node[below right] {$c$};
+  \fill[red] (B) circle (2pt) node[below left] {$b$};
+  \fill[red] (C) circle (2pt) node[above] {$a$};
+  \fill[blue,thick] (0,0) circle (2pt) node[above right] {$O$};
+\end{tikzpicture}
+\end{center}
+\begin{tcolorbox}[colback=blue!5!white,colframe=blue!75!black,title=Pé complexo(Círculo Unitário)\emoji{nerd-face}]
+O pé completo do ponto z a uma corda AB do círculo unitário é dada por : 
+
+$$\frac{1}{2} \cdot (z + a + b - ab \overline{z})$$
+
+\end{tcolorbox}
+
+A prova disso se dá usando o teorema do pé complexo com os pontos a e b no círculo unitário, ficando como exercício para o leitor provar.
+
+\begin{tcolorbox}[colback=blue!5!white,colframe=blue!75!black,title=Ortocentro\emoji{nerd-face}]
+    O ortocentro H com a,b,c estando no círculo unitário é dado por : 
+    $$ H = a + b + c$$
+    Em particular, se o é o circuncentro do $\triangle ABC$, a fórmula é dada por : 
+    $$ H = a + b + c - 2o$$
+\end{tcolorbox}
+
+\subsection{Círculo dos nove pontos}
+
+O círculo dos nove pontos tem o centro que é o ponto médio entre o circuncentro e o ortocentro de um triângulo é dado por : 
+\begin{tcolorbox}[colback=blue!5!white,colframe=blue!75!black,title=Círculo dos nove pontos(círculo 
+ unitário)\emoji{nerd-face}]
+$$n_9 = \frac{a+b+c- o}{2}$$
+\end{tcolorbox}
+Esse círculo contém os pontos médios dos lados do triângulo, seus pés das alturas e os pontos médios dos segmentos que ligam os vértices ao ortocentro do triângulo. 
+\\
+Prova:
+\begin{center}
+\begin{asy}
+/* Geogebra to Asymptote conversion, documentation at artofproblemsolving.com/Wiki go to User:Azjps/geogebra */
+import graph;
+size(6cm);
+real labelscalefactor = 0.5; /* changes label-to-point distance */
+pen dps = linewidth(0.7) + fontsize(10);
+defaultpen(dps);
+pen dotstyle = black;
+real xmin = -4.6775254428172905, xmax = 5.774110566138461, ymin = -3.7721426858764358, ymax = 2.7679529005659314;
+pen wrwrwr = rgb(0.3803921568627451,0.3803921568627451,0.3803921568627451);
+
+/* draw figures */
+draw(circle((0,0), 2), linewidth(2) + wrwrwr);
+draw((-1,1.7320508075688772)--(-1.4142135623730951,-1.4142135623730951), linewidth(2) + wrwrwr);
+draw((-1,1.7320508075688772)--(1.4142135623730951,-1.4142135623730951), linewidth(2) + wrwrwr);
+draw((-1.4142135623730951,-1.4142135623730951)--(1.4142135623730951,-1.4142135623730951), linewidth(2) + wrwrwr);
+draw((-1,1.7320508075688772)--(-1,-1.4142135623730951), linewidth(2) + wrwrwr);
+draw((-1.4142135623730951,-1.4142135623730951)--(0.3660254037844388,-0.04818815858865656), linewidth(2) + wrwrwr);
+draw((1.4142135623730951,-1.4142135623730951)--(-1.3660254037844388,-1.0481881585886563), linewidth(2) + wrwrwr);
+draw(circle((-0.5,-0.5481881585886564), 1), linewidth(2) + wrwrwr);
+
+/* dots and labels */
+dot((-1,1.7320508075688772),dotstyle);
+label("$A$", (-0.9693851222746063,1.8135370374726671), NE * labelscalefactor);
+dot((-1.4142135623730951,-1.4142135623730951),dotstyle);
+label("$B$", (-1.3840084070610246,-1.3391645430731152), NE * labelscalefactor);
+dot((1.4142135623730951,-1.4142135623730951),dotstyle);
+label("$C$", (1.4479468588386626,-1.3391645430731152), NE * labelscalefactor);
+dot((-1,-1.4142135623730951),linewidth(4pt) + dotstyle);
+label("$D$", (-0.9693851222746063,-1.3548107047631686), NE * labelscalefactor);
+dot((0.3660254037844388,-0.04818815858865656),linewidth(4pt) + dotstyle);
+label("$E$", (0.39965402560507673,0.014228443116513466), NE * labelscalefactor);
+dot((-1.3660254037844388,-1.0481881585886563),linewidth(4pt) + dotstyle);
+label("$F$", (-1.337069921990864,-0.9871259050469111), NE * labelscalefactor);
+dot((-1,-1.0963763171773129),linewidth(4pt) + dotstyle);
+label("$H$", (-0.9693851222746063,-1.0340643901170716), NE * labelscalefactor);
+dot((0,0),linewidth(4pt) + dotstyle);
+label("$O$", (0.031969225888819036,0.06116692818667399), NE * labelscalefactor);
+dot((-0.5,-0.5481881585886565),linewidth(4pt) + dotstyle);
+label("$n_{9}$", (-0.46870794819289363,-0.48644873096519886), NE * labelscalefactor);
+clip((xmin,ymin)--(xmin,ymax)--(xmax,ymax)--(xmax,ymin)--cycle);
+/* end of picture */
+\end{asy}
+\end{center}
+
+Primerio : que o centro do círculo dos nove pontos é o circuncentro do triângulo formado pelos pés das alturas.
+
+$$|\frac{a+b+c}{2} - \frac{a+b+c - bc/a}{2}| = |-bc/2a| = 1/2$$
+
+Como o problema é simétrico, pode-se dizer que está provado.
+
+Segundo : que o centro do círculo dos nove pontos passa pelos pontos médios dos lados do triângulo.
+
+$$|\frac{a+b+c}{2} - \frac{b+c}{2}| = |a/2| = 1/2$$
+
+Terceiro : que o  centro do círculo dos nove  pontos passa pelos pontos médios dos segmetos que ligam os vértices ao ortocentro.
+\\
+Dever de casa.
+\\
+\section{Mais fórmulas}
+\begin{tcolorbox}[colback=blue!5!white,colframe=blue!75!black,title=Fórmula do quadrilátero cíclico\emoji{nerd-face}]
+
+Os vértices ABCD de um quadrilátero estão numa mesma circunferência se e somente se:
+
+$$\frac{b-a}{c-a} \div \frac{b-d}{c-d} \in \mathbb{R}$$
+
+ \end{tcolorbox}
+
+Pode-se provar isso usando de o fato de que queremos provar que os ângulos $\angle BAC = \angle BDC$, como na figura abaixo.
+\begin{center}
+\begin{tikzpicture}[scale = 2]
+  % Draw the unit circle
+  \draw (0,0) circle [radius=1];
+  
+  % Define the coordinates of the points
+  \coordinate (A) at ({sqrt(2)/2}, {-sqrt(2)/2});
+  \coordinate (B) at ({-sqrt(2)/2}, {-sqrt(2)/2});
+  \coordinate (C) at (-1/2,{sqrt(3)/2});
+  \coordinate (D) at (1,0);
+  
+  % Draw and label the points
+  \fill (A) circle (1pt) node[below right] {$c$};
+  \fill (B) circle (1pt) node[below left] {$b$};
+  \fill (C) circle (1pt) node[above] {$a$};
+  \fill (D) circle (1pt) node[right] {$d$};
+  
+  % Draw the angle arcs
+  \draw[red] (A) -- (C);
+  \draw[red] (B) -- (D);
+  % \draw[red,->] (0.3,0) arc (0:60:0.3);
+  % \draw[red,->] (-0.3,0) arc (180:240:0.3);
+  
+  % Draw the triangle
+  \draw[thick] (A) -- (B) -- (C) -- (D) -- cycle;
+  
+  % Add angles BCA and BDA
+  \pic [fill, blue, --, angle radius=0.3cm] {angle = B--C--A};
+  \pic [fill, blue, --, angle radius=0.3cm] {angle = B--D--A};
+  
+\end{tikzpicture}
+\end{center}
+
+Para provar que os ângulos são iguais, pode-se usar argumentos e, caso esses argumentos sejam iguais, na hora da divisão o argumento final do número complexo será zero, ou seja, número real.
+
+\begin{tikzpicture}[scale=1]
+  % Draw x and y axis
+  \draw[->] (-1,0) -- (3,0) node[right] {$\mathbb{R}$};
+  \draw[->] (0,-1) -- (0,3) node[above] {$\mathbb{C}$};
+  
+  % Define the coordinates of the points
+  \coordinate (A) at (2,1);
+  \coordinate (B) at (1,1);
+  \coordinate (C) at (2,2);
+  
+  % Draw and label the points
+  \fill (A) circle (1pt) node[above right] {$b$};
+  \fill (B) circle (1pt) node[below left] {$a$};
+  \fill (C) circle (1pt) node[below right] {$c$};
+  
+  % Draw the angle between the points
+  \pic [draw, red, --, angle eccentricity=1.3, angle radius=0.5cm, "$\theta$"] {angle = A--B--C};
+  \draw[thick,blue] (2,1) -- (1,1);
+  \draw[thick,blue] (1,1) -- (2,2);
+\end{tikzpicture}
+
+\begin{tikzpicture}[scale=1]
+  % Draw x and y axis
+  \draw[->] (-1,0) -- (3,0) node[right] {$\mathbb{R}$};
+  \draw[->] (0,-1) -- (0,3) node[above] {$\mathbb{C}$};
+  
+  % Define the coordinates of the points
+  \coordinate (A) at (1,0);
+  \coordinate (B) at (0,0);
+  \coordinate (C) at (1,1);
+  
+  % Draw and label the points
+  \fill (A) circle (1pt) node[above right] {$b-a$};
+  \fill (B) circle (1pt) node[below left] {$a-a$};
+  \fill (C) circle (1pt) node[below right] {$c-a$};
+  
+  % Draw the angle between the points
+  \pic [draw, red, --, angle eccentricity=1.3, angle radius=0.5cm, "$\theta$"] {angle = A--B--C};
+  \draw[thick,blue] (B) -- (A);
+  \draw[thick,blue] (B) -- (C);
+\end{tikzpicture}
+
+\begin{tikzpicture}[scale=1]
+  % Draw x and y axis
+  \draw[->] (-1,0) -- (3,0) node[right] {$\mathbb{R}$};
+  \draw[->] (0,-1) -- (0,3) node[above] {$\mathbb{C}$};
+  
+  % Define the coordinates of the points
+  \coordinate (A) at (1,0);
+  \coordinate (B) at (0,0);
+  \coordinate (C) at (1/2,1);
+  
+  % Draw and label the points
+  \fill (A) circle (1pt) node[above right] {$1$};
+  \fill (B) circle (1pt) node[below left] {$0$};
+  \fill (C) circle (1pt) node[below right] {$c-a/b-a$};
+  
+  % Draw the angle between the points
+  \pic [draw, red, --, angle eccentricity=1.3, angle radius=0.5cm, "$\theta$"] {angle = A--B--C};
+  \draw[thick,blue] (B) -- (A);
+  \draw[thick,blue] (B) -- (C);
+\end{tikzpicture}
+
+Então, com isso, obtemos que o número complexo $\frac{c-a}{b-a} = r \cdot e^{i \theta}$, sendo $\theta$ igual a $\angle BAC$. Fazendo o mesmo processo com $\angle DAC$, obtemos $r' \cdot (e^{i\theta}$. Dessa forma, ao se dividir um pelo outro, sobra-se $\frac{r}{r'}$, que é real.
+
+
+
+\begin{tcolorbox}[colback=blue!5!white,colframe=blue!75!black,title=Triângulos semelhantes complexos\emoji{nerd-face}]
+
+Dois triângulos ABC e XYZ são semelhantes(nessa orientação) se e somente se :
+
+$$\frac{c-a}{b-a} = \frac{z-x}{y-x}$$
+
+\end{tcolorbox}
+
+Isso pode ser provado provando que :
+
+$$\frac{AC}{AB} = \frac{XZ}{XY} \iff |\frac{c-a}{b-a}| = |\frac{z-x}{y-x}| \iff \angle BAC = \angle ZXY$$, implicando no resultado desejado.
+
+% \section{Mais fórmulas}
+
+\begin{tcolorbox}[colback=blue!5!white,colframe=blue!75!black,title=Centro de roto-homotetia complexo\emoji{nerd-face}]
+
+O centro de roto-homotetia P que leva XY em ZW é dado por : 
+
+$$p = \frac{xw - yz}{x+w-y-z}$$
+
+\end{tcolorbox}
+
+Prova : Aplique a fórmula da semelhança de triângulos e abre a conta(vai por mim, pode abrir a conta sem medo).
+
+\begin{center}
+\definecolor{rvwvcq}{rgb}{0.08235294117647059,0.396078431372549,0.7529411764705882}
+\definecolor{wrwrwr}{rgb}{0.3803921568627451,0.3803921568627451,0.3803921568627451}
+\begin{tikzpicture}[line cap=round,line join=round,>=triangle 45,x=1cm,y=1cm]
+\clip(-0.11308219939814423,-0.6076674595565992) rectangle (7.191539965405895,3.9631889250064143);
+\draw [line width=2pt,color=wrwrwr] (2.2459011050313906,1.2268059740956627) circle (1.1606931867177241cm);
+\draw [line width=2pt,color=wrwrwr] (4,2) circle (1.5492860591462407cm);
+\draw [line width=2pt,color=wrwrwr] (1.3310032945103445,0.5125436483380026)-- (3.0220816079192514,3.201650078639824);
+\draw [line width=2pt,color=wrwrwr] (1.1286869722416735,1.5415141805153014)-- (4.389796993819262,3.499448430815262);
+\draw [line width=2pt,color=wrwrwr] (1.1286869722416735,1.5415141805153014)-- (1.3310032945103445,0.5125436483380026);
+\draw [line width=2pt,color=wrwrwr] (3.0220816079192514,3.201650078639824)-- (4.389796993819262,3.499448430815262);
+\begin{scriptsize}
+\draw [fill=rvwvcq] (1.3310032945103445,0.5125436483380026) circle (2.5pt);
+\draw[color=rvwvcq] (1.1740863850529776,0.6307284388925903) node {$Y$};
+\draw [fill=wrwrwr] (2.493316819139523,2.3608227897140672) circle (2pt);
+\draw[color=wrwrwr] (2.2386706074356575,2.467819043214567) node {$P$};
+\draw [fill=rvwvcq] (1.1286869722416735,1.5415141805153014) circle (2.5pt);
+\draw[color=rvwvcq] (1.0717877173151412,1.6586243722632201) node {$X$};
+\draw [fill=wrwrwr] (3.0220816079192514,3.201650078639824) circle (2pt);
+\draw[color=wrwrwr] (2.863553637241936,3.3098189035288064) node {$Z$};
+\draw [fill=wrwrwr] (4.389796993819262,3.499448430815262) circle (2pt);
+\draw[color=wrwrwr] (4.235904058922934,3.605065607794838) node {$W$};
+\end{scriptsize}
+\end{tikzpicture}
+\end{center}
+
+\begin{tcolorbox}[colback=blue!5!white,colframe=blue!75!black,title=Circuncentro complexo\emoji{nerd-face}]
+
+O centro complexo X de um triângulo ABC é dado por : 
+
+$$
+x = 
+\frac{
+\begin{vmatrix}
+    a & a \overline{a} & 1 \\
+    b & b \overline{b} & 1 \\
+    c & c \overline{c} & 1 \\
+\end{vmatrix}
+}
+{
+\begin{vmatrix}
+a & \overline{a} & 1 \\
+b & \overline{b} & 1 \\
+c & \overline{c} & 1
+\end{vmatrix}
+}
+$$
+
+\end{tcolorbox}
+A prova desse teorema se dá por pegar um círculo de raio r equidistante a a,b,c, fazer um sistema de equações e o centro será a solução do sistema de equações por regra de Cramer.
+Em particular, se c = 0 (circunferência que passa pelo centro, tem-se que : 
+
+$$x = \frac{ab(\overline{a} - \overline{b})}{\overline{a} b - a \overline{b}}$$
+
+\begin{tcolorbox}[colback=blue!5!white,colframe=blue!75!black,title=Equação da corda(círculo unitário)\emoji{nerd-face}]
+Aplicando a fórmula da colinearidade para um ponto z sob a conta AB, tem-se que : 
+
+$$z + ab \overline{z} = a + b$$
+\end{tcolorbox}
+
+Em particular, se colocarmos as tangentes por a e b(substituindo a=a e b=a), tem-se que o encontro das tangentes saindo do círculo unitário é dada por : 
+
+$$p = \frac{2ab}{a+b}$$
+
+\section{Incentro}
+
+Quando se tem o incentro na figura, o $A = a^2$, $B = b^2$ e $C = C^2$, isso se deve pois as fórmulas do incentro usam inversão raíz de bc(um material de inversão com raíz de bc está disponível na internet através desse \href{https://www.obm.org.br/content/uploads/2017/01/A_inversao_que_nao_muda_ABC_Carlos_Shine-1.pdf}{link}) e, para se calcular e tirar a raiz quadrada de um número complexo não funciona muito
+bem pois começam a ocorrer alguns problemas. Dessa forma, se chama os números complexos dessa forma quando se há um incentro na figura.
+\begin{center}
+\begin{tikzpicture}
+  % Draw the unit circle
+  \draw (0,0) circle [radius=2];
+   \draw[->] (-3,0) -- (3,0) node[right] {$\mathbb{R}$};
+  \draw[->] (0,-3) -- (0,3) node[above] {$\mathbb{C}$};
+  % Define the coordinates of the points
+  \coordinate (A) at ({sqrt(2)}, {-sqrt(2)});
+  \coordinate (B) at ({-sqrt(2)}, {-sqrt(2)});
+  \coordinate (C) at (-1,{sqrt(3)});
+  \coordinate (I) at (-0.4258640783629533,-0.40850494614637717);
+  \coordinate (D) at (0,-2);
+  \coordinate (E) at (1.4619496720014715,1.3933517057112954);
+  \coordinate (F) at (-1.95,0.436684321789468);
+  \coordinate (X) at (0,2);
+  \coordinate (Y) at (-1.461, -1.39);
+  \coordinate (Z) at (1.95, -0.43);
+% \coordinate(D) at (-0.9380927988944993,-1.264845275045361);
+% \coordinate(E) at (0.4309463489851838,0.10419387283432113);
+% \coordinate(F) at (-1.305777598610757,-0.8971604753291035);
+% \coordinate(H) at (-0.9380927988944993,-0.944098960399264)
+   \draw (A) -- (B) -- (C) -- cycle;
+  % Draw and label the points
+  \fill[red] (A) circle (2pt) node[below right] {$c$};
+  \fill[red] (B) circle (2pt) node[below left] {$b$};
+  \fill[red] (C) circle (2pt) node[above] {$a$};
+  % \fill[purple] (I) circle (2pt) node[above] {$I$};
+  \fill[blue,thick] (0,0) circle (2pt) node[above right] {$O$};
+  \draw[thick] (C) -- (D);
+  \draw[thick] (B) -- (E);
+  \draw[thick] (A) -- (F);
+  \fill[purple] (D) circle (2pt) node[below right] {$d$} ;
+  \fill[purple] (E) circle (2pt) node[right] {$e$};
+  \fill[purple] (F) circle (2pt) node[right] {$f$};
+   \fill[purple] (I) circle (2pt) node[above] {$I$};
+\fill[cyan] (X) circle (2pt) node[above] {$X$};
+\fill[cyan] (Y) circle (2pt) node[above] {$Y$};
+\fill[cyan] (Z) circle (2pt) node[above] {$Z$};
+   
+\end{tikzpicture}
+\end{center}
+
+Tem-se que os pontos $D = -bc, E = -ac, F = -ab$, com D,E,F sendo os pontos médios dos arcos menores BC, AC e AB do triângulo ABC (com A,B,C no círculo unitário). Em particular, caso você queira o ponto médio do arco maior, basta pegar a antípoda, obtendo $X = bc$, $Y = ac$ e $Z = ab$.
+
+\begin{tcolorbox}[colback=blue!5!white,colframe=blue!75!black,title=Incentro (círculo unitário)\emoji{nerd-face}]
+O incentro I do triângulo ABC, com os vértices no círculo unitário, é dado por : 
+$$I = -ab -ac  -bc$$
+\end{tcolorbox}
+
+Os ex-incentros relativos aos vértices A,B,C são dados por : 
+
+$$I_a = -bc + ac + ab$$
+$$I_b = -ac + bc + ab$$
+$$I_c = -ab + ac + bc$$
+(isso pode ser provado intersectando duas retas que saem de um vértice é são perpendiculares à bissetriz interna do ângulo).
+
+\section{Vamos aprender com problemas ?}
+
+\begin{tcolorbox}[colback=purple!5!white,colframe=purple!75!black,title=(OBM 2015 P1 N3)\emoji{nerd-face}]
+Seja ABC um triângulo escaleno e acutângulo e N o centro do círculo que passa pelos pés das três alturas do
+triângulo. Seja D a interseção das retas tangentes ao circuncírculo de ABC e que passam por B e C. Prove que
+A, D e N são colineares se, e somente se, $\angle BAC = 45^{\circ}$
+
+\end{tcolorbox}
+
+\begin{center}
+\definecolor{wrwrwr}{rgb}{0.3803921568627451,0.3803921568627451,0.3803921568627451}
+\definecolor{rvwvcq}{rgb}{0.08235294117647059,0.396078431372549,0.7529411764705882}
+\begin{tikzpicture}[line cap=round,line join=round,>=triangle 45,x=1cm,y=1cm]
+ \draw[->] (-3,0) -- (4,0) node[right] {$\mathbb{R}$};
+  \draw[->] (0,-3) -- (0,4) node[above] {$\mathbb{C}$};
+\clip(-2.0645384352338763,-1.5652177542965537) rectangle (2.8990613653760433,1.5407473903964686);
+\draw [shift={(-1.3795305957500126,-0.5786466281275708)},line width=1.6pt,fill=black,fill opacity=0.10000000149011612] (0,0) -- (0.3769404795971304:0.11145807935501316) arc (0.3769404795971304:45.376940479597124:0.11145807935501316) -- cycle;
+\fill[line width=2pt,color=rvwvcq,fill=rvwvcq,fill opacity=0.10000000149011612] (1.3641192600258107,-0.5605963001290458) -- (-1.3795305957500126,-0.5786466281275708) -- (0.5477593131401668,1.374170299423405) -- cycle;
+\draw [line width=2pt,color=wrwrwr] (1.3641192600258107,-0.5605963001290458)-- (-1.3795305957500126,-0.5786466281275708);
+\draw [line width=2pt,color=wrwrwr] (-1.3795305957500126,-0.5786466281275708)-- (0.5477593131401668,1.374170299423405);
+\draw [line width=2pt,color=rvwvcq] (1.3641192600258107,-0.5605963001290458)-- (-1.3795305957500126,-0.5786466281275708);
+\draw [line width=2pt,color=rvwvcq] (-1.3795305957500126,-0.5786466281275708)-- (0.5477593131401668,1.374170299423405);
+\draw [line width=2pt,color=rvwvcq] (0.5477593131401668,1.374170299423405)-- (1.3641192600258107,-0.5605963001290458);
+\draw [line width=2pt,color=wrwrwr] (-0.011444013193236858,-0.001392973795642422) circle (1.484884735867213cm);
+\draw [line width=2pt,color=wrwrwr,domain=-2.0645384352338763:2.8990613653760433] plot(\x,{(--2.1899196701446106-1.3755632732190477*\x)/-0.5592033263334034});
+\draw [line width=2pt,color=wrwrwr,domain=-2.0645384352338763:2.8990613653760433] plot(\x,{(--2.1965670249733393-0.5592033263334036*\x)/1.3755632732190475});
+\draw [line width=2pt,color=wrwrwr] (0.5567999072153207,-1.5652177542965537) -- (0.5567999072153207,1.5407473903964686);
+\draw [line width=2pt,color=wrwrwr,domain=-2.0645384352338763:2.8990613653760433] plot(\x,{(--0.006647354828729135--0.816359946885644*\x)/1.934766599552451});
+\begin{scriptsize}
+\draw [fill=rvwvcq] (1.3641192600258107,-0.5605963001290458) circle (2.5pt);
+\draw[color=rvwvcq] (1.3943772940833654,-0.48221674989701313) node {$B$};
+\draw [fill=rvwvcq] (-1.3795305957500126,-0.5786466281275708) circle (2.5pt);
+\draw[color=rvwvcq] (-1.3512067273617923,-0.4970778271443481) node {$A$};
+\draw [fill=rvwvcq] (0.5477593131401668,1.374170299423405) circle (2.5pt);
+\draw[color=rvwvcq] (0.5770180454799355,1.4534385615683751) node {$C$};
+\draw[color=black] (-1.2880471490606182,-0.5267999816390182) node {$45\textrm{\degre}$};
+\draw [fill=wrwrwr] (1.9233225863592138,0.8149669730900017) circle (2pt);
+\draw[color=wrwrwr] (1.9516676908584312,0.8887176261696439) node {$D$};
+\draw [fill=wrwrwr] (-0.011444013193236858,-0.001392973795642422) circle (2pt);
+\draw[color=wrwrwr] (0.019727648704869722,0.07135837756621691) node {$O$};
+\draw [fill=wrwrwr] (0.5552360038024388,0.23771331875807322) circle (2pt);
+\draw[color=wrwrwr] (0.5844485841036031,0.30913561352357743) node {$H$};
+\draw [fill=wrwrwr] (0.27189599530460096,0.1181601724812154) circle (2pt);
+\draw[color=wrwrwr] (0.3020881164042364,0.19024699554489719) node {$N$};
+\end{scriptsize}
+\end{tikzpicture}
+
+\end{center}
+
+Para começar a atacar esse problema, podemos criar uma configuração tal que A reta AB seja paralela ao eixo real. Dessa forma, obtem-se que o número (a-b) é real e, assim, tem-se que ele é igual a seu conjugado.
+
+Dessa forma, $a - b = \overline{a} - \overline{b} \iff -ab = 1$
+E, usando o coeficiente ângulo da reta AC com AB, obtemos que :
+
+$$\frac{a-c}{\overline{a}-\overline{c}} = -1 \iff ac = 1$$
+
+Pela fórmula da colinearidade, queremos que o número complexo abaixo seja real : 
+
+$$\frac{a - \frac{a+b+c}{2}}{a - \frac{2bc}{b+c}} = \frac{ab + ac -b^2 -c^2 - 2bc}{2ab + 2ac - 4bc}$$
+Que tem conjugado igual a 
+$$\frac{abc^2 + ab^ 2 c - a^2c^2 -a^2b^2 -2a^2bc}{2abc^2 + 2ab^2 - 4a^2bc}$$
+
+Que não são iguais.
+
+Mas, fazendo que $\angle BAC = 45^{\circ}$, obtemeos que : 
+
+$$\frac{a - \frac{a+b+c}{2}}{a - \frac{2bc}{b+c}} = \frac{ab + ac -b^2 -c^2 - 2bc}{2ab + 2ac - 4bc} = \frac{-1+1-b^2 -c^2 -2bc}{-2+2 - 4bc}= \frac{b^2 + 2bc + c^2}{4bc}$$
+Que possuí conjugado igual a : 
+$$\frac{\frac{1}{b^2} + \frac{2}{bc} + \frac{1}{c^2}}{\frac{4}{bc}} = \frac{c^2 + 2bc + b^2}{4bc}$$. Que são iguais. Dessa forma, A,D,N são colineares se e somente se $\angle BAC = 45^{\circ}$.
+
+
+\begin{tcolorbox}[colback=purple!5!white,colframe=purple!75!black,title=OBM N3 P2 2022\emoji{nerd-face}]
+Seja ABC um triângulo acutângulo, com AB < AC. Sejam K o ponto médio do arco BC da
+circunferência circunscrita a ABC que não contém A e P o ponto médio do lado BC. Os pontos $I_B$ e $I_C$.
+são os exincentros relativos aos vértices B e C, respectivamente.
+Seja Q a reflexão de K pelo ponto A. Mostre que P, Q, $I_B$ e $I_C$ estão sobre uma mesma circunferência.
+
+\end{tcolorbox}
+\begin{center}
+\begin{tikzpicture}
+  % Define the coordinates of the triangle vertices
+  \coordinate (A) at ({sqrt(2)}, {-sqrt(2)});
+  \coordinate (B) at ({-sqrt(2)}, {-sqrt(2)});
+  \coordinate (C) at (-1, {sqrt(3)});
+    \coordinate (K) at (0,-2);
+    \coordinate (P) at (0, {-sqrt(2)});
+    \coordinate (Q) at (-2, 5.46);
+\coordinate (I_b) at (-3.57,1.04);
+\coordinate (I_c) at (3.57, 2.97);
+\coordinate (O) at (-0.08, 2.29);
+  % Draw the triangle ABC
+  \draw (A) -- (B) -- (C) -- cycle;
+
+  % Calculate the coordinates of the ex-incenters relative to sides B and C
+  % \coordinate (I_b) at (intersection of B--B+(C-B)*2 and A--C);
+  % \coordinate (I_c) at (intersection of C--C+(B-C)*2 and A--B);
+\draw[cyan] (0,0) circle [radius=2];
+\draw[red] (O) circle [radius = 3.71];
+  % Draw the ex-incenters I_b and I_c and label them
+  \fill (A) circle (2pt)  node[below] {$C$};
+  \fill (B) circle (2pt) node[below] {$B$};
+  \fill (C) circle (2pt) node[above right] {$A$};
+  \fill (K) circle (2pt)  node[below] {$K$};
+  \fill (P)  circle (2pt) node[above] {$P$};
+  \fill (Q) circle (2pt) node[below] {$Q$};
+  \fill (I_b) circle (2pt) node[above right] {$I_c$};
+  \fill (I_c) circle (2pt) node[above right] {$I_b$};
+  \draw[thick] (I_c) -- (Q) -- (P);
+  \draw[thick] (P) -- (I_b) -- (I_c);
+\end{tikzpicture}
+\end{center}
+
+Para resolver esse problema, precisamos calcular os pontos $P, I_b, I_c, K$ e colocá-los na fórmula do quadrilátero cíclico. $P = \frac{b^2+c^2}{2}$, $I_b = -ac + ab +  bc$ e $I_c = -ab + ac + bc$. O ponto Q será :
+$$Q = 2A - K \iff Q = 2a^2 + bc$$.
+
+Agora, vamos jogar na fórmula da colinearidade (simples assim, \emoji{pile-of-poo}).
+
+$$\frac{\frac{b^2 + c^2}{2} + ab - ac - bc}{-ac + ab + bc + ab - ac - bc} \div \frac{\frac{b^2 + c^2}{2} - 2a^2 - bc}{-ac + ab + bc - 2a^2 - bc} \in \mathbb{R}$$
+$\iff$
+$$\frac{b^2 + c^2 + 2ab - 2ac - 2bc}{-4ac + 4ab} \div 
+\frac{b^2 + c^2 - 4a^2 - 2bc}{-2ac + 2ab - 4a^2}
+$$
+$$\iff$$
+$$
+\frac{(b-c)^2 + 2a(b-c)}{4a(b-c)} \div \frac{(b - c + 2a)(b-c - 2a)}{2a(-c+b-2a)}
+$$
+$$\iff$$
+$$
+(\frac{b-c}{4a} + 1/2) \div (\frac{c-b + 2a}{2a}) = (\frac{b-c}{4a} + 1/2) \cdot (\frac{2a}{-c+b+2a})
+$$
+$$\iff$$
+$$
+\frac{b-c +2a}{4a} \cdot \frac{2a}{-c+b-2a} = \frac{1}{2}
+$$
+
+Que é um número real. Logo, os quatro pontos são cíclicos.
+
+\section{Problemas Olímpicos \emoji{bomb}}
+
+\begin{enumerate}
+    \item (EGMO 2023 P2)
+ É dado um triângulo acutângulo $ABC$. Seja $D$ o ponto no seu circuncírculo tal que $AD$ é um diâmetro. Suponha que os pontos $K$ e $L$ estão nos segmentos $AB$ e $AC$, respectivamente, e que $DK$ e $DL$ são tangentes a $AKL$.
+Mostre que a reta $KL$ passa pelo ortocentro do triângulo $ABC$.
+    \textit{Convém usar o círculo de AKL como círculo unitário}
+\item (OBM 2017 P5 N3)
+No triângulo $ABC$, seja $r_A$ a reta que passa pelo ponto médio de $BC$ e é perpendicular à bissetriz interna do ângulo $\angle{BAC}$. Defina $r_B$ e $r_C$ similarmente. Seja $H$ e $I$ o ortocentro e incentro de $ABC$, respectivamente. Suponha que as três retas $r_A$, $r_B$, $r_C$ definam um triângulo.Prove que o circuncentro desse triângulo é o ponto médio de $HI$.
+\item 
+(IMO 2012) Dado um triângulo ABC, o ponto J é o centro da circunferência ex-inscrita oposta ao vértice A. Esta circunferência ex-inscrita é
+tangente ao lado BC em M, e às retas AB e AC em K e L, respectivamente. As retas LM e BJ intersectam-se em F, e as retas KM e CJ
+intersectam-se em G. Seja S o ponto de interseção das retas AF e BC, e
+seja T o ponto de interseção das retas AG e BC.
+Prove que M é o ponto médio de ST.
+\item 
+(OMCPLP/2019) Seja ABC um triângulo com $AC \neq BC$. No triângulo
+ABC, sejam G seu baricentro (encontro das medianas), I seu incentro
+(encontro das bissetrizes internas) e O seu circuncentro (centro da circunferência que passa pelos vértices). Prove que IG é paralelo a AB se,
+e somente se, CI é perpendicular a IO
+\item 
+Dado um quadrilátero cíclico ABCD, as diagonais AC e BD se encontram em E e as retas
+AD e BC se encontram em F. Os pontos médios de AB e CD são G e H, respectivamente. Mostre que EF
+é tangente à circunferência que passa pelos pontos E, G e H.
+\tcbset{colframe=red!75!black,fonttitle=\bfseries}
+\begin{tcolorbox}[enhanced,title=ELMO SL 2013 G7 \emoji{fire},
+interior style={left color=red!20!white,
+right color=yellow!50!white}]
+\item 
+Seja $ABC$ um triângulo inscrito em um círculo $\omega$, e as medianas de $B$ e $C$ intersectam $\omega$ em $D$ e $E$ respectivamente. Seja $O_1$ o centro do círculo passando por $D$ tangente a $AC$ em $C$, e seja $O_2$ o centro do círculo por E $E$ tangente a $AB$ em $B$. Prove que $O_1$, $O_2$, e o centro do círculo de nove pontos de $ABC$ são colineares.
+\end{tcolorbox}
+
+\item 
+(RMM 2019)
+Seja $ABCD$ um trapézio isósceles com $AB\parallel CD$. E seja $E$ o ponto médio de $AC$. Denote por $\omega$ e $\Omega$ os circuncírculos dos triângulos $ABE$ e $CDE$, respectivamente. Seja $P$ a interseção da tangente por $\omega$ em $A$ com a tangente em $\Omega$ por $D$.Prove que $PE$ é tangente a $\Omega$.
+\item 
+(EGMO/2017)
+ Seja ABC um triângulo acutângulo sem dois lados com o mesmo tamanho. A reflexão do
+baricentro G e do circuncentro O do ABC pelos lados BC, CA, AB são G1, G2, G3 e O1, O2, O3, respectivamente. Mostre que os circunírculos dos triângulos G1G2C, G1G3B, G2G3A, O1O2C, O1O3B, O2O3A e
+ABC têm um ponto em comum.
+% \end{tcolorbox}
+\end{enumerate}
+
+% Que tem conjugado igual a :
+
+% $$
+% (\frac{c/bc-b/bc}{4/a} + 1/2) \cdot (\frac{2/a}{bc/abc - ab/abc + 2bc/abc})
+% $$
+% $$\iff$$
+% $$
+% \frac{}
+% $$
+
+
+% Que tem conjugado igual a :
+% $$\frac{ac^2/ab^2c^2 + ab^2/ab^2c^2 + 2bc^2/ab^2c^2 - 2b^2c/ab^2c^2 - 2abc/ab^2c^2}{-4b/abc + 4c/abc} \div 
+% $$
+% $$
+% \frac{a^2c^2/a^2b^2c^2 + a^2b^2/a^2b^2c^2 - 4b^2c^2/a^2b^2c^2 - 2a^2bc/a^2b^2c^2}{-2ab/a^2bc + 2ac/a^2bc - 4bc/a^2bc}
+% $$
+% $\iff$
+% $$
+% \frac{ac^2 + ab^2 + 2bc^2 - 2b^2c - 2abc}{-4ab + 4ac} \div 
+% $$
+% $$
+% \frac{a^2c^2 + a^2b^2 - 4b^2c^2 - 2a^2bc}{-2ab^2c + 2abc^2 - 4b^2c^2}
+% $$
+% $$\iff$$
+
+
+% $$\frac{a- \frac{2bc}{b+c}}{a - \frac{a+b+c}{2}}$$
+% $$\iff$$
+% $$\frac{\frac{-1 - 2bc}{b+c}}{\frac{a-b-c}{2}}$$
+% Que tem conjugado igual a :
+% $$\frac{\frac{-bc - 2}{c/bc + b/bc}}{\frac{bc/abc - ac/abc - ab/abc}{2}}$$
+% $$\frac{\frac{-b^2c^2 - 2bc^2}{ab+ac}}{\frac{a-b-c}{2}} = \frac{\frac{-1 - 2bc}{b+c}}{\frac{a-b-c}{2}}$$
+% $$\iff$$
+
+% $$1 + 2bc = -bc(bc+c)^2$$
+\begin{thebibliography}{9}
+\bibitem{texbook}
+Chen, Evan. Euclidean Geometry in Mathematical Olympiads.
+\bibitem{texbook}
+Paiva, Gabriel. Complex Bash. Disponível em : \href{https://www.obm.org.br/content/uploads/2021/11/Complex_Bash_Gabriel_Ribeiro_Paiva_SO2021.pdf}{https://www.obm.org.br/content/uploads/2021/11/Complex_Bash_Gabriel_Ribeiro_Paiva_SO2021.pdf}
+\bibitem{texbook}
+Andreescu, Titu. Lemmas in Olympiad Geometry. 
+\bibitem{texbook}
+Shine, Carlos Yuzo. A inversão $\sqrt{bc}$ que não muda bc. Disponível em :
+\href{https://www.obm.org.br/content/uploads/2017/01/A_inversao_que_nao_muda_ABC_Carlos_Shine-1.pdf}{https://www.obm.org.br/content/uploads/2017/01/A_inversao_que_nao_muda_ABC_Carlos_Shine-1.pdf}
+
+\bibitem{texbook}
+Miyazaki, Rafael. Geometria com Complexos. Disponível em
+\href{https://www.obm.org.br/content/uploads/2020/02/23_SO_Rafael_Miyazaki_Nivel_3_Complexos_compressed.pdf}{https://www.obm.org.br/content/uploads/2020/02/23_SO_Rafael_Miyazaki_Nivel_3_Complexos_compressed.pdf}
+\end{thebibliography}
+\end{document}
