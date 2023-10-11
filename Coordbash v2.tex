@@ -1,0 +1,330 @@
+\documentclass{article}
+\usepackage{graphicx} % Required for inserting images
+\usepackage{draftwatermark}
+\usepackage{tikz}
+\usepackage{amsmath}
+\usepackage{emoji}
+\SetWatermarkText{BASH}
+\SetWatermarkScale{1}
+\usepackage{fontspec}
+\usetikzlibrary{calc}
+\usepackage{cancel}
+\setmainfont{Comic Sans MS}
+\usepackage{lipsum}
+\usepackage{emoji}
+\usepackage[most]{tcolorbox}
+\renewcommand*\contentsname{Summary}
+
+\usepackage{hyperref}
+\title{Coordbash}
+\author{Master Humberto}
+\date{Copia não comédia}
+
+\begin{document}
+
+\maketitle
+\tableofcontents
+
+
+\section{Geometria com contas, como começar ?}
+
+Quando se pensa em geometria com contas, geralemente se pensa naquelas contas "sem pensar" que usam "setups" sem muita lógica pois, se a conta "bate", você pode ficar "despreocupado".
+De certo modo, isso não deixa de ser verdade, mas, pensando num contexto lógico que você vá fazer uma olimpíada na qual você tem um tempo lmitado, gastar uns 5-10 minutinhos pensando na melhor forma de fazer o problema \textcolor{red}{pode te salvar 1 hora ou até mais} de contas futuramente.
+Dessa forma, os módulos do curso começarão tratando de construção de "setups", evoluindo para os problemas que serão futuramente apresentados aqui.
+
+\section{Como criar um setup para um problema de coordbash ?}
+
+Os setup´s para  a realização do coordbash são relativamente simples. Você precisará definir onde ficarão os eixos x e y e para onde eles estão apontando. Geralmente, para essa escolha, é conveniente pensar em pontos na qual tem muitas retas concorrendo como o (0,0) ou então centros de círculos de modo a facilitar as contas. Em coordbash, temos que o "0" é tudo, pois ele facilita bastante as contas posteriormente. Existem infinitos setups que pode-se criar, mas os três mais comuns são usando a base de um triângulo o o outro vértice no eixo y, o centro de um círculo ou, então, diagonais que são perpendiculares.
+\begin{center}
+\begin{tikzpicture}
+  % Draw x-axis
+  \draw[thick, ->] (-5,0) -- (6,0) node[below] {$x$};
+  
+  % Draw y-axis
+  \draw[thick, ->] (0,-1) -- (0,5) node[left] {$y$};
+  
+  % Draw the triangle and fill it with red
+  \draw[red] (-3,0) -- (5,0) -- (0,4) -- cycle;
+  
+  % Label the vertices with their coordinates
+  \node[below] at (-3,0) {$(-3,0)$};
+  \node[below] at (5,0)  {$(5,0)$};
+  \node[above] at (0,4)  {$(0,4)$};
+  \node[below] at (0,-1) {Temos aqui um triângulo com a base no eixo x e o outro vértice pertencendo ao eixo y};
+  % Add blue circles at the triangle vertices
+  \filldraw[blue] (-3,0) circle (3pt);
+  \filldraw[blue] (5,0) circle (3pt);
+  \filldraw[blue] (0,4) circle (3pt);
+\end{tikzpicture}
+\end{center}
+
+\section{A reta no plano euclidiano}
+
+O que seria um reta no plano euclidiano ? Na escola aprende-se que todas as retas no plano são da forma $y = ax + b$, em que a é o coeficiente angular da reta e b é o coeficiente linear da reta. Mas o que cada um significa ? Bem, mas o que isso significa ? Temos que, basicamente, para cada x do gráfico, relaciona-se um ponto y que é calculado como $y = ax +b$. Bem intuitivo, não ? Tem-se que todas as retas do plano podem ser representadas variando os parâmetros a e b, variando o "a" você altera a inclinação da reta e alterando o b você coloca a reta para cima ou para baixo. Existem duas formas de achar os parâmetros a e b, a primeira é caso você tenha duas retas $y = a_1 x + b_1$ e $y = a_2 x + b_2$, então você faz um sistema de equações e descobre a e b, ou, então, você sabe que a reta passa por certo ponto e tem certo coeficiente angular ou linear, daí, você pode achar a outra informação que falta, ou seja, se tiver "a" se ahca "b", e vice-versa.
+
+\subsection{Definição de "a"}
+O "a" ou coeficiente angular da reta é basicamente igual à tangente do ângulo formado pela reta e o semieixo positivo das abcissas. Como você pode não entender isso de cara, vou desenhar para que você entenda.
+\begin{center}
+
+\begin{tikzpicture}
+  % Draw x-axis
+  \draw[thick, ->] (0,0) -- (5,0) node[below] {$x$};
+  
+  % Draw y-axis
+  \draw[thick, ->] (0,0) -- (0,3) node[left] {$y$};
+
+    \draw[dot]
+  
+  % Define the angle (in degrees)
+  \def\angle{45}
+  
+  % Calculate the coordinates of the line's endpoint
+  \pgfmathsetmacro\xcoord{cos(\angle)}
+  \pgfmathsetmacro\ycoord{sin(\angle)}
+  
+  % Draw the line
+  \draw[red, thick] (0,0) -- (5*\xcoord,5*\ycoord) node[midway, above] {};
+  
+  % Draw the arc
+     \draw[<-, blue, thick] (1,0) arc (0:\angle:1) node[right, xshift=2mm, yshift=-1mm] {$\theta$};
+  \fill[black] (1,1) circle (2pt) node[above right] {$(1,1)$};
+  \fill[black] (3,3) circle (2pt) node[above right] {$(3,3)$};
+  \fill[black] (3,1) circle (2pt) node[above right] {$(3,1)$};
+
+    \draw[green, thick] (1,1) -- (3,1) -- (3,3) ;
+      \draw[<-, blue, thick] (2,1) arc (0:\angle:1) node[right, xshift=2mm, yshift=-1mm] {$\theta$};
+       \draw (3,1) -- (3,1.2) -- (2.8,1.2) -- (2.8,1) -- cycle;
+\end{tikzpicture}
+\end{center}
+
+Que pode ser calculado como $a = \frac{y2 -y1}{x2- x1}$(pode-se fazer isso algebricamente ou pensar geometricamente como sendo a tangente).
+
+\subsection{Definição de "b"}
+
+O parâemetro "b" é o ponto em que a reta encosta o eixo y, já que, quando $x = 0$, tem-se que $y = a \cdot 0 + b \xrightarrow[]{} y = b.$ Esse parâmetro, como dito anteriormente, indica se a reta está "para cima ou para baixo".
+\section{Retas Paralelas e Perpendiculares}
+
+Para saber se duas retas são paralelas ou perpendiculares, basta olhar o "a" da equação, pois ele quem dita a inclinação da reta. Para que duas retas sejam paralelas, basta que elas façam o mesmo ângulo com o semi-eixo x positivo. E elas não são paralelas caso contrário.
+
+\begin{tikzpicture}
+    % Draw the x and y axes
+    \draw[->] (-2,0) -- (4,0) node[right] {$x$};
+    \draw[->] (0,-2) -- (0,4) node[above] {$y$};
+     \def\angle{45}
+     \draw[<-, blue, thick] (1,0) arc (0:\angle:1) node[right, xshift=2mm, yshift=-1mm] {$\theta$};
+     \draw[<-, blue, thick] (0,0) arc (0:\angle:1) node[right, xshift=2mm, yshift=-1mm] {$\theta$};
+    % Draw the y = x line
+    \draw[domain=-1.5:3.5,smooth,variable=\x,red] plot ({\x},{\x}) node[right] {$y = ax + b_1$};
+    
+    % Draw the y = x + 1 line
+    \draw[domain=-1.5:3.5,smooth,variable=\x,blue] plot ({\x},{\x + 1}) node[right] {$y = ax + b_2$};
+\end{tikzpicture}
+
+Para que duas retas sejam paralelas, basta que o produto dos seus coeficientes angulares seja igual a \texbf{-1}. E elas não são paralelas caso contrário.
+\begin{tikzpicture}
+    \draw[->] (-2,0) -- (4,0) node[right] {$x$};
+    \draw[->] (0,-2) -- (0,4) node[above] {$y$};
+    
+    \def\anglea{atan(2)}  % Calculate the angle of the green line
+    \def\angleb{atan(-0.5)}  % Calculate the angle of the orange line
+
+    % Draw the y = ax + b1 line
+    \draw[domain=-1:2,smooth,variable=\x,black] plot ({\x},{2*\x}) node[right] {$y = a_1x + b_1$};
+
+    % Draw the y = -1/a * x + b2 line
+    \draw[domain=-1:2.5,smooth,variable=\x,black] plot ({\x},{-0.5*\x + 1}) node[right] {$y = a_2x + b_2$};  
+ \coordinate (intersection) at (2/5,4/5);
+    % Draw a square at the intersection point
+    \fill[black] (intersection) circle (2pt);
+    % Draw angle arc for y = ax + b1
+    \draw[thick, blue] (0.5,0) arc (0:\anglea:0.5) node[right] {$\alpha$};
+
+    % Draw angle arc for y = -1/a * x + b2
+    \draw[thick, red] (2.5,0) arc (0:180+\angleb:0.5) node[above right] {$90^{\circ} + \alpha$}; 
+\end{tikzpicture}
+
+A prova disso se dá por transformações trigonométricas. Para isso, vamos desenhar a figura e perceber que a tangente do ângulo $\alpha$ é igual a "a". Dessa forma, temos que provar que $a_1 \cdot a_2 = -1$, ou, de forma equivalente, que : 
+
+$$
+\tan{\alpha} \cdot \tan{90^{\circ} + \alpha} = -1 
+\iff
+\frac{sen(\alpha)}{cos(\alpha} \cdot \frac{sen(90 + \alpha)}{cos(90 + \alpha)} = -1 
+\iff
+\frac{\cancel{sen(\alpha)}}{\cancel{cos(\alpha)}} \cdot \frac{\cancel{cos(\alpha)}}{\cancel{-sen(\alpha)}} = -1 
+\\
+
+$$
+
+\section{Distância entre dois pontos}
+
+Aprende-se na escola que a "menor distância entre dois pontos é uma  reta que liga eles". Agora aprender-se-a como calcular essa distância. Temos que a distância entre pontos $P_1 = (x_1,y_1)$ e $P_2 = (x_2, y_2)$ é dada por $d = \sqrt{(x_1-x_2)^2 + (y_1-y_2)^2}$, que se obtém através do teorema de Pitágoras.
+\begin{center}
+\begin{tikzpicture}
+  % Draw x-axis
+  \draw[thick, ->] (-1,0) -- (5,0) node[below] {$x$};
+  
+  % Draw y-axis
+  \draw[thick, ->] (0,-1) -- (0,5) node[left] {$y$};
+  
+  % Plot points (1,2) and (4,3)
+  \fill[black] (1,2) circle (2pt) node[above right] {$(x_1,y_1)$};
+  \fill[black] (4,3) circle (2pt) node[above right] {$(x_2,y_2)$};
+  \fill[black] (4,2) circle (2pt) node[above right] {};
+  % Draw a red line connecting the points
+  \draw[red, thick] (1,2) -- (4,3);
+
+  \draw[blue, thick] (1,2) -- (4,2) -- (4,3);
+    \fill[yellow] (4,2) -- (4,2.2) -- (3.8, 2.2) -- (3.8,2) -- cycle;
+  
+\end{tikzpicture}
+\end{center}
+
+Com o cateto horizontal valendo $x_2 - x_1$ e o vertical valendo $y_2 - y_1$, aplica-se teorema de Pitágoras e obtém-se a distância entre $P_1 $ e $P_2$.
+
+\section{Equação do círculo}
+
+A equação de um círculo de raio $R$ centrado em $(x_0, y_0)$ é dada por $$(x-x_0)^2 + (y-y_0)^2 = R^2$$.
+\begin{center}
+\begin{tikzpicture}
+  % Draw x-axis
+  \draw[thick, ->] (-1,0) -- (5,0) node[below] {$x$};
+  
+  % Draw y-axis
+  \draw[thick, ->] (0,-3) -- (0,3) node[left] {$y$};
+  
+  % Draw a circle centered at (2,0) with a radius of 3
+  \draw[blue,thick] (1,0) circle (2);
+  \fill[thick] (1,0) circle(0.1) node[above right] {$(x_0, y_0)$};
+ \fill[blue] (2,1.74) circle (2pt) node[above right] {$(x,y)$};
+ \fill[blue] (2,0) circle (2pt);
+ \draw[thick, green] (1,0) -- (2,0) -- (2,1.74) -- (1,0);
+% \end{center}
+\end{tikzpicture}
+\end{center}
+
+Isso se dá pois todos os pontos pertencentes ao círculo satisfazem a relação $(x - x_0)^2 + (y-y_0)^2 = R^2$ já que o Teorema de Pitágoras sempre vale e todos esses pontos são equidistantes de um centro $(x_0, y_0)$.
+
+\section{Área de um triângulo}
+
+A área de um triângulo de coordenadas $(x_a,y_a)$, $(x_b, y_b)$ e $(x_c,y_c)$ é dada por :
+$$
+\frac{1}{2} \cdot 
+\begin{vmatrix}
+x_a & y_a & 1 \\
+  x_b & y_b & 1 \\
+  x_c & y_c & 1 \\
+\end{vmatrix}
+= 
+\frac{1}{2} \cdot |x_ay_b + x_c  y_a + x_b y_c - x_a y_c - y_a x_b - y_b x_c|
+$$
+
+Sendo esse o determinante da matriz acima. A prova disso pode ser encontrada em vários sites e usam coisas bem mais elementares do que Álgebra Linear.
+
+\section{Vamos aprender com problemas ?}
+\begin{tcolorbox}[colback=blue!5!white,colframe=blue!75!black,title=Problema 1]
+(AMC 2004 10B) Um triângulo de lados 5,12 e 13 tem um círculo inscrito e circunscrito. Qual a distância entre os centros desses círculos ?
+\end{tcolorbox}
+\begin{center}
+\begin{tikzpicture}[scale=0.5]
+  % Define the vertices of the triangle
+  \coordinate (A) at (0,0);
+  \coordinate (B) at (5,0);
+  \coordinate (C) at (0,12);
+  
+  % Draw the triangle
+  \draw (A) -- (B) -- (C) -- cycle;
+    \fill[black] (0,0) circle(3pt) node[above right] {$(0,0)$};
+     \fill[black] (5,0) circle (3pt) node[above right] {$(5,0)$};
+     \fill[black] (0,12) circle (3pt) node [above left] {$(0,12)$};
+     \fill[black] (2,2) circle (3pt);
+     \fill[black] (2.5, 6) circle (3pt);
+     \draw[thick, green] (2,2) -- (2.5, 6);
+  % Draw the inscribed circle
+  \draw[thick, blue](2.5, 6) circle (6.5cm);
+    \draw[thick, red](2, 2) circle (2cm);
+     \draw[thick, ->] (-1,0) -- (8,0) node[below] {$x$};
+     
+
+  % Draw y-axis
+  \draw[thick, ->] (0,-3) -- (0,14) node[left] {$y$};
+  % Draw the circumscribed circle
+  % \draw (barycentric cs:A=1,B=1,C=1) circle (5cm);
+\end{tikzpicture}
+\end{center}
+Para começarmos a atacar esse problema, vamos usar o fato de que o triâgnulo 5,12,13 é retângulo com hipotenusa de valor 13. Dessa forma, é conveniente colocar o ponto de encontro dos catetos como sendo o ponto $(0,0)$. Agora, para calcular o valor do inraio, basta sabermos que a  área do triângulo é dada por $5 \cdot 12 / 2 = 30$. E que ela é $r \cdot s = [ABC]$, com $s$ sendo o semiperímetro do triânngulo. Dessa forma, tem-se que o inraio tem valor 2, dessa forma, o incentro é $(2,2)$. O circuncentro é dado por você unir duas mediatrizes, no caso, pegarei as dos catetos já que elas são paralelas aos eixos. Dessa forma o circuncentro é o ponto $(2.5, 6)$. Agora, basta usar a fórmula da distância para perceber que a distância é dada por : $\frac{\sqrt{65}}{2}$
+
+\begin{tcolorbox}[colback=blue!5!white,colframe=blue!75!black,title=Problema 2]
+(PUMAC 2012)Dois círculos centrados em O e P tem raios 5 e 6, respectivamente.
+Círculo O passa pelo ponto P. Sejam os pontos de interseção dos círculos centrados em O e P como M e N.
+Ache a área do triângulo MNP. \emoji{bomb}
+\end{tcolorbox}
+\begin{center}
+\begin{tikzpicture}[scale  = 0.5]
+  % Draw the x-axis
+  \draw[thick, ->] (-7,0) -- (7,0) node[below] {$x$};
+  
+  % Draw the y-axis
+  \draw[thick, ->] (0,-2) -- (0,12) node[left] {$y$};
+  
+  % Draw the circle centered at (0,0) with radius 5
+  \draw[thick,red] (0,0) circle (5);
+  \fill[black] (0,0) circle (0.1) node[above left] {$(0,0)$};
+  % Draw the circle centered at (0,5) with radius 6
+  \draw[thick,blue] (0,5) circle (6);
+  \fill[black](0,5) circle(0.1) node [above left] {$(0,5)$};
+  \fill[black](0,5) circle(0.1) node [above right] {P};
+  \fill[red](-4.8,1.4) circle(0.1) node [above left] {M};
+  \fill[red] (4.8, 1.4) circle(0.1) node [above left] {N};
+  \draw[thick, green] (-4.8,1.4) -- (4.8,1.4) -- (0,5) -- cycle;
+\end{tikzpicture}
+\end{center}
+
+Para resdolver esse problemas, é conveniente colocar os círcuos em posições fáceis de trabalhar. Então, seja O = $(0,0)$ e P = $(0,5)$. Dessa forma, temos que a equação do círculo O e P são, respectivamente : 
+$$
+x^2+ y^2 = 25 (1)
+$$
+e
+$$
+x^2 + (y-5)^2 = 36 = x^2 + y^2 - 10y + 25 = 36 (2)
+$$
+
+Com isso, temos que, substituindo a equação 1 em 2, que $-10y = 36-50 = -14 \xrightarrow{} y = 1.4$ Substituindo isso na equação 1, tem-se que $x^2 + 1.96 = 25 \xrightarrow{} x^2 = 23.04 \xrightarrow{} x = \pm \sqrt{\frac{2304}{100}} = \pm \frac{48}{10} = \pm 4.8$. E, usando que $base \cdot altura $ sobre 2, tem-se que a área do triângulo é :
+$$9.6 \cdot 3.6 / 2 = 17,28.$$
+
+\section{Problemas olímpicos \emoji{bomb}}
+
+\begin{enumerate}
+    \item (IMO) No quadrilátero convexo ABCD, as diagonais AC e BD são perpendiculares e os  lados opostos AB e CD não são paralelos.Sabemos que o ponto P, onde se intersectam as mediatrizes de AB e CD, está no interior de ABCD. Prove que ABCD é um quadrilátero cíclico se. e somente se, os triângulos ABP e CDP têm áreas iguais.
+    \item 
+    (2019 AIME II Problems/Problem 1)Dois pontos diferentes, $C$ e $D$, estãpo no mesmo lado da reta AB$AB$ tal que $\triangle ABC$ e $\triangle BAD$ são congruentes, comm $AB = 9$, $BC=AD=10$, and $CA=DB=17$.A interseção dessad duas regiões triangulares tem área $\frac{m}{n}$, em que m e n são inteiros primos entre si. Ache m + n.
+    \item
+    (Balcânica Adaptado) Seja ABC um triângulo acutângulo e M, N, P as projeções ortogonais  do baricêntrico de ABC sobre seus lados. Prove que : 
+    $$
+    \frac{2}{9} < \frac{[MNP]}{[ABC]} \leq \frac{1}{4}
+    $$
+    Denote [XYZ] como a área do triângulo XYZ.
+    \item 
+    (OMMC 2022 P11)Seja$ABC$ um triângulo tal que $AB = 7$, $BC = 8$, and $CA = 9$. Existe um único ponto $X$ tal que $XB = XC$ e $XA$ é tangente ao circuncírculo de $ABC$. Se $XA = \tfrac ab$, onde $a$ e $b$ são inteiros primos entre si, ache $a + b$.
+    \begin{tcolorbox}[colback=red!5!white,colframe=red!75!black,title=PERIGO!!!!\emoji{warning}]
+    \item 
+    (ELMO 2020 P4 \emoji{bomb} \emoji{bomb})Seja o triângulo acutângulo escaleno ABC com ortocentro H e altura AD com D no lado BC. Seja M o ponto médio de BC e seja $D'$ a reflexão de D sobre M. Seja P o ponto na reta $D'H$ tal que as retas AP e BC sejam paralelas e sejam os circuncírculos de $\triangle AHP$ e $\triangle BHC$ se encontram novamente em $G \neq H$. Prove que $\angle MHG = 90^{\circ}$.
+    \end{tcolorbox}
+\end{enumerate}
+
+
+\begin{thebibliography}{9}
+\bibitem{texbook}
+The Art of Coordinate Bashing, Beckman Math Club. Acessível através do link : \href{https://www.mit.edu/~ehjin/files/CoordBash.pdf}{https://www.mit.edu/~ehjin/files/CoordBash.pdf}.
+\bibitem{texbook}
+Shine, Carlos Yuzo. 21 aulas de Matemática Olímpica.
+\bibitem{texbook}
+ELMO 2020. Acessível através do link:
+\href{https://web.evanchen.cc/exams/ELMO-2020.pdf}{https://web.evanchen.cc/exams/ELMO-2020.pdf}
+\bibitem{texbook}
+OMMC 2022 P11, achado na "thread" da Aops : \href{https://artofproblemsolving.com/community/q3h2858327p25365132}{https://artofproblemsolving.com/community/q3h2858327p25365132}
+\end{thebibliography}
+
+
+
+
+\end{document}
