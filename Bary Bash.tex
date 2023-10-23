@@ -1,0 +1,933 @@
+\documentclass{article}
+\usepackage{graphicx} % Required for inserting images
+\usepackage{draftwatermark}
+\usepackage{tikz}
+\usepackage{amsfonts} 
+\usepackage{amsmath}
+\usepackage{emoji}
+\SetWatermarkText{BASH}
+\SetWatermarkScale{1}
+\usepackage{fontspec}
+\usepackage{tabularx}
+\usetikzlibrary{calc}
+\usepackage{tkz-euclide}
+\setmainfont{Times New Roman}
+\usepackage{asymptote}
+\usepackage{lipsum}
+\usetikzlibrary{angles,quotes}
+% \usepackage{hyperref}
+% \tcbuselibrary{skins}
+\usepackage{emoji}
+\usetikzlibrary{decorations.markings}
+\renewcommand*\contentsname{Summary}
+
+\usepackage[most]{tcolorbox}
+\renewcommand*\contentsname{Summary}
+\usepackage{hyperref}
+\title{Bary bash}
+\author{Master Humberto}
+\date{Copia não comédia}
+
+\begin{document}
+
+\maketitle
+\tableofcontents
+
+\section{Introdução ao Bary Bash}
+
+Essa introdução será bem longa e espero que você pegue um papel com caneta durante essa leitura, pois ela é bastante densa e também vai exigir muita "imaginação".
+\subsection{Segmento Orientado}
+A medida dos segmentos orientados são definidos como $\overline{AB} = b - a$, sendo b a coordenada de b e a a coordenda de a. Eles se chamam orientados pois se tem uma reta l que tem algum sentido(convenciona-se que ela aponta para a direita e os pontos A e B estão nessa reta) como o valor de númerico de $b-a.$ Se a e b estiverem na mesma "ordem" em relação à reta "l", tem-se que$ \overline{AB}$ = |AB| caso O segmento tenha a mesma orinetação da reta l e -|AB| caso contrário.
+\\
+
+
+
+\begin{center}
+\begin{tikzpicture}
+  % Draw x-axis
+  \draw[->] (0,0) -- (3,0) node[above] {\textit{l}}; % Change 3 to adjust the length of the axis
+
+  % Draw points at (1,0) and (2,0)
+  \fill (1,0) circle (2pt);
+  \fill (2,0) circle (2pt);
+
+  % Label the points
+  \node[below] at (1,0) {$a$};
+  \node[below] at (2,0) {$b$};
+\end{tikzpicture}
+\end{center}
+
+\subsection{Divisão de um segmento orientado}
+
+Vamos adicionar à figura anterior um outro ponto P e vamos chamar a razão $\frac{AP}{PB} = k$, com k sendo um número real. Que representa a razão númerica dessa razão. Á partir disso, podemos concluir que :
+$$
+k = 0 \iff A = P \\
+$$
+$$
+k = 1 \iff AP = PB \\
+$$
+$$
+k \to \infty \iff P \to B
+$$
+
+E, dado a e b fixos, existe um único ponto p tal que a razão seja exatamente igual a k, dessa forma, podemos enunciar acerca da unicidade do ponto divisor. Ou seja, tem-se que :
+$$
+\frac{AC}{CB} = \frac{AD}{DB} \iff C = D.
+$$
+
+\begin{center}
+\begin{tikzpicture}
+  % Draw x-axis
+  \draw[->] (0,0) -- (3,0) node[above] {\textit{l}}; % Change 3 to adjust the length of the axis
+
+  % Draw points at (1,0) and (2,0)
+  \fill (1,0) circle (2pt);
+  \fill (2,0) circle (2pt);
+\fill[red] (1.3,0) circle (2pt);
+  % Label the points
+  \node[below] at (1,0) {$a$};
+  \node[below] at (2,0) {$b$};
+  \node[below] at (1.3,0)  {$p$};
+\end{tikzpicture}
+\end{center}
+
+\subsection{Área com sinal do triângulo}
+
+O convencionou que a área com sinal de um triângulo ABC é dada como positiva se A,B,C estão dispostos no sentido anti-horário e negativa caso estejam dispostas no sentido horário. Para a área, vamos definir que a área com sinal do triângulo é dada por [ABC], com A,B,C estando no sentido anti-horário.Dessa forma, tem-se que : 
+
+\begin{tikzpicture}
+  % Draw x-axis
+  \draw[->] (-2,0) -- (4,0); % Adjust the coordinates for the axis
+
+  % Draw points A, B, and C
+
+  % Label the points
+  \node[below] at (-1,0) {A};
+  \node[below] at (2,1) {B};
+  \node[above right] at (3,2) {C};
+\node at (3,1) {[ABC] > 0};
+  % Draw the triangle
+  \fill[red, thick] (-1,0) -- (2,1) -- (3,2) -- cycle;
+    \fill (-1,0) circle (2pt);
+  \fill (2,1) circle (2pt);
+  \fill (3,2) circle (2pt);
+  \draw[->] (0,1) arc (0:270:0.5); % The last value '1' is the radius of the circle
+\end{tikzpicture}
+
+\begin{tikzpicture}
+  % Draw x-axis
+  \draw[->] (-2,0) -- (4,0); % Adjust the coordinates for the axis
+
+  % Draw points A, B, and C
+
+  % Label the points
+  \node[below] at (-1,0) {A};
+  \node[below] at (2,1) {C};
+  \node[above right] at (2,2) {B};
+\node at (3,1) {[ABC] < 0};
+  % Draw the triangle
+  \fill[red, thick] (-1,0) -- (2,1) -- (2,2) -- cycle;2
+    \fill (-1,0) circle (2pt);
+  \fill (2,1) circle (2pt);
+  \fill (2,2) circle (2pt);
+   \draw[<-] (0,1) arc (0:270:0.5);
+\end{tikzpicture}
+
+\subsection{Razão de segmentos orientados e área com sinal}
+
+Sejam A,B,C pontos colineares e P um ponto qualquer que não pertence à reta na qual pertencem os pontos A,B,C, tem-se que a razão entre os segmentos AB e BC  é igual à razão entre das áreas entre os triângulos PAB e PBC:
+\begin{center}
+
+\begin{tikzpicture}
+  % Draw x-axis
+  \draw[->] (-1,0) -- (5,0) node[above] {\textit{l}}; % Adjust the coordinates for the axis
+
+  % Draw points A, B, C, and P
+  \fill (1,0) circle (2pt);
+  \fill (3,0) circle (2pt);
+  \fill (4,0) circle (2pt);
+  \fill (2,3) circle (2pt);
+
+  % Label the points
+  \node[below] at (1,0) {A};
+  \node[below] at (3,0) {B};
+  \node[below] at (4,0) {C};
+  \node[above] at (2,3) {P};
+
+  % Draw the triangle
+  \draw (1,0) -- (3,0) -- (4,0) -- cycle;
+
+  % Draw lines from P to A, B, and C
+  \draw (2,3) -- (1,0);
+  \draw (2,3) -- (3,0);
+  \draw (2,3) -- (4,0);
+  \node[thick] at (4,3) {$\frac{\overline{AB}}{\overline{BC}}  = \frac{[PAB]}{[PBC]}$}
+\end{tikzpicture}
+\end{center}
+A prova desse teorema é feita usando base vezes altura sobre 2, as alturas se cancelam e o "sobre 2" também, sobrando apenas o valor da base.
+
+\subsection{Teorema do Co-Lado}
+\begin{center}
+\begin{tikzpicture}
+  % Draw points A, B, C, and the updated position of P
+  \fill (0,2) circle (2pt);
+  \fill (-2,0) circle (2pt);
+  \fill (1,0) circle (2pt);
+  \fill (-0.5,0.5) circle (2pt);
+\coordinate (P) at (-0.5, 0.5);
+  % Label the points
+  \node[above] at (0,2) {A};
+  \node[below] at (-2,0) {B};
+  \node[below] at (1,0) {C};
+  \node[right] at (P) {P};
+
+  % Draw the triangle
+  \draw (0,2) -- (-2,0) -- (1,0) -- cycle;
+
+  % Draw a dotted line from A to the updated position of P
+  % \draw[dotted] (0,2) -- (-0.5,0.5);
+
+  % Calculate the intersection point X of line AP and BC
+  \coordinate (X) at (intersection of 0,2--(-0.5,0.5) and -2,0--1,0);
+ \draw[dotted] (0,2) -- (X);
+ \draw[dotted] (P) -- (-2,0);
+ \draw[dotted] (P) -- (1,0);
+  % Draw and label the intersection point X
+  \fill (X) circle (2pt);
+  \node[below] at (X) {X};
+\end{tikzpicture}
+\end{center}
+O teorema do Co-Lado diz que $\frac{[ABC]}{[PBC]} = \frac{AX}{PX}$
+
+Esse teorema pode ser provado usando o teorema anterior fazendo que $\frac{BC}{BX} = \frac{ABC}{ABX}$,$\frac{ABX}{PBX} = \frac{AX}{PX}$ e $\frac{PBX}{PBC} = \frac{BX}{BC}$. Dessa forma, tem-se que :
+
+$$
+\frac{ABC}{PBC} = \frac{ABC}{ABX} \cdot \frac{ABX}{PBX} \cdot \frac{PBX}{PBX} = \frac{BC}{BX} \cdot \frac{AX}{PX} \cdot \frac{BX}{BC} = \frac{AX}{PX}
+
+$$
+Esse é o teorema mais "difícil" de decorar nessa parte introdutória, então, é normal ter dificuldades. O que eu recomendo fazer é analisar bem esse teorema pois ele é um dos mais úiteis para se entender as coordenadas baricêntricas.
+
+\section{Coordenadas baricêntricas, definições e alguns teoremas}
+
+Como são definidas as coordenadas baricêntricas ? Existe uma relação delas com os eixos cartesianos que verás mais à frente, mas ela é definida como P = (x:y:z), sendo x,y,z as "coordenadas baricêntricas" do ponto P. Sempre que for feito um problema de coordenadas baricêntricas, há um triângulo de referência e todas as outras coordendas são em relação à esse triângulo. Basicamente, x,y,z são "pesos" numa média ponderada que tem como elementos os vetores $\overrightarrow{A}, \overrightarrow{B}, \overrightarrow{C}$, sendo esses os vetores que ligam a origem do sistema de coordendas no plano cartesiano aos vértices do triângulo.
+\begin{center}
+\begin{tikzpicture}
+  % Draw x-axis
+  \draw[->] (-1,0) -- (4,0) node[right] {$x$};
+
+  % Draw y-axis
+  \draw[->] (0,-1) -- (0,4) node[above] {$y$};
+
+  % Draw points A, B, C, and P
+  \fill (1,2) circle (2pt);
+  \fill (2,1) circle (2pt);
+  \fill (3,3) circle (2pt);
+  \fill (2,2) circle (2pt);
+
+  % Label the points
+  \node[above] at (1,2) {A (1,2)};
+  \node[below] at (2,1) {B (2,1)};
+  \node[above] at (3,3) {C (3,3)};
+  \node[above] at (2,2) {P (2,2)};
+
+  % Draw vectors from the origin to A, B, C, and P
+  \draw[red,->] (0,0) -- (1,2);
+  \draw[red,->] (0,0) -- (2,1);
+  \draw[red,->] (0,0) -- (3,3);
+  \draw[red,->] (0,0) -- (2,2);
+
+  % Draw the triangle
+  \draw (1,2) -- (2,1) -- (3,3) -- cycle;
+\end{tikzpicture}
+\end{center}
+
+O ponto P tem coordenadas (1:1:1), ou seja, quando fizermos o cálculo da sua coordenda cartesiana, teremos : 
+$$
+P = \frac{1 \cdot \overrightarrow{A} + 1\cdot \overrightarrow{B} + 1 \cdot \overrightarrow{C}}{1+1+1} = \frac{1 \cdot (1,2) + 1 \cdot (2,1) + 1 \cdot (3,3)}{1+1+1} = (2,2)
+$$
+Com base nessa definição, pode-se enunciar uma coisa muito importante que é o fato de que um ponto P pode ter infinitas representações por coordendas baricêntricas, basta que, por exemplo, no lugar de "1", seja k e, dessa forma, tem-se que :
+$$
+P = \frac{k \cdot \overrightarrow{A} + k\cdot \overrightarrow{B} + k \cdot \overrightarrow{C}}{k+k+k} = \frac{k \cdot (1,2) + k \cdot (2,1) + k \cdot (3,3)}{k+k+k} = (2,2)
+$$
+Dessa forma, pode-se haver a NORMALIZAÇÂo das coordendas, que ocorre quando a soma das coordendas baricêntrias de um ponto P é igual a 1, o que facilita que muitas fórmulas sejam escritas de forma a ficar algo "pequeno", e não uma fórmula gigante de difícil de ser "decorada". Para isso, basta que, por exemplo, dado um ponto P de coordendas (x:y:z), a  sua normalização seria : $P = (\frac{x}{x+y+z}  : \frac{y}{x+y+z} : \frac{z}{x+y+z})$, pois, assim, as coordendas são normalizadas.
+\section{Coordendas baricêntricas ou "areais" ?}
+
+As coordenadas baricêntricas podem ser escritas usando as áreas das figuras formadas pelo ponto P e um triângulo ABC, que será conhecido como o triângulo de referência. Esse triângulo é muito importante na escolha do \textbf{SETUP} do problema de geometria que você  irá resolver, pois as suas coordendas são bastante simples. Temos  que $A  = (1:0:0), B = (0:1:0), C = (0:0:1)$, pois a coordenada do vértice é apenas $1 \cdot \overrightarrow{A},\overrightarrow{B},\overrightarrow{C}$, ficando coordendas bem simples para se fazer as contas. Mas voltando ao assunto, as coordenadas são chamadas de aerais pois um ponto P tem coordendas iguais a :
+
+$$
+P = (\frac{[PBC]}{[ABC]}, \frac{[PCA]}{[BCA]}, \frac{[PAB]}{[CAB]}) = (x:y:z)
+$$
+
+Com essas sendo as áreas "com sinal" do ponto P(como explicado anteriormente). Por exemplo, se P está dentro do  triângulo, tem-se que as áreas são como as dos triângulos dentro da figura. 
+\begin{center}
+\begin{tikzpicture}
+  % Triangle vertices
+  \coordinate (A) at (1,0);
+  \coordinate (B) at (3,0);
+  \coordinate (C) at (1.5,2);
+  
+  % Point P
+  \coordinate (P) at (2,1);
+  
+  % Draw the triangle
+  \draw (A) -- (B) -- (C) -- cycle;
+  
+  % Label the vertices
+  \node[below] at (A) {$B$};
+  \node[below] at (B) {$C$};
+  \node[above] at (C) {$A$};
+  
+  % Label point P
+  \node[above] at (P) {$P$};
+  
+  % Optional: Draw a line from P to a side of the triangle (e.g., AB)
+  \draw[dashed] (P) -- (A);
+  \draw[dashed] (P) -- (B);
+  \draw[dashed] (P) -- (C);
+  
+\end{tikzpicture}
+\end{center}
+
+
+\begin{tcolorbox}[colback=green!5!white,colframe=green!75!black,title=Área complexa(coordenadas homogêneas)\emoji{goblin}]
+\emoji{warning} Válido apenas para coordendas normalizadas ou homogeneizadas(soma das coordendas igual a 1) \\
+A árae complexa de pontos $P_1, P_2, P_3$ de coordendadas $(x_i, y_i,  z_i)$ com $i \in \{1,2,3\}$ é dada por :
+$$
+\frac{[P_1 P_2 P_3]}{[ABC]} = 
+\begin{vmatrix}
+x_1 & y_1 & z_1\\
+x_2 & y_2 & z_2 \\
+x_3  & y_3 & z_3
+\end{vmatrix}
+$$
+\end{tcolorbox}
+
+Disso, se deriva a equação da reta, que determina todas as coordenadas $P = (x : y : z)$ e passam pelos pontos $P_1 = (x_1:y_1:z_1), P_2 = (x_2:y_2:z_2)$. Que é dada pela equação da área com determinante nulo. Em particular, tem-se que :
+\\
+$$ux + vy + wz = 0$$, com u,v,w constantes  reais e x,y,z os pontos na reta.
+
+Inclusive, se tens duas retas, para achar a interseção delas, tu faz que : 
+$$
+\begin{cases}
+u_1 x + v_1 y + w_1 z = 0  \\
+u_2 x + v_1 y + w_2 z = 0  \\
+x + y + z = 1
+\end{cases}
+$$
+
+E resolve o sistema de equações, achando o ponto de interseção de duas retas.
+\begin{tcolorbox}[colback=green!5!white,colframe=green!75!black,title=Teorema de Ceva\emoji{goblin}]
+Tem-se que pontos D,E,F estão sob os lados BC, AC  e AB do triângulo ABC. As cevianas AD, BE e CF são concorrentes se e somente se : 
+$$
+\frac{BD}{DC} \cdot \frac{CE}{EA} \cdot \frac{AF}{FB} = 1
+$$
+\end{tcolorbox}
+
+Demonstração : 
+\begin{center}
+\begin{tikzpicture}[scale=0.8]
+
+    % Vertices of the triangle ABC
+    \coordinate[label=above:$A$] (A) at (0,4);
+    \coordinate[label=below:$B$] (B) at (0,0);
+    \coordinate[label=below:$C$] (C) at (6,0);
+
+    % Draw triangle ABC
+    \draw (A) -- (B) -- (C) -- cycle;
+
+    % Points D, E, F on BC, AC, and AB respectively
+    \coordinate[label=below:$D$] (D) at ($(B)!0.3!(C)$);
+    \coordinate[label=right:$E$] (E) at ($(A)!0.7!(C)$);
+    \coordinate[label=left:$F$] (F) at ($(A)!0.85!(B)$);
+
+    % Draw segments AD, BE, CF
+    \draw (A) -- (D);
+    \draw (B) -- (E);
+    \draw (C) -- (F);
+
+    % Calculate the concurrency point G using the Cramer's rule
+    \coordinate (G) at (intersection of A--D and B--E);
+    
+    % Draw point G
+    \fill[red] (G) circle (2pt) node[above right] {$G$};
+
+    % Draw points D, E, F
+    \fill (D) circle (2pt);
+    \fill (E) circle (2pt);
+    \fill (F) circle (2pt);
+
+\end{tikzpicture}
+\end{center}
+
+Considere as coordendas d = $d = \frac{BD}{BC}, 1-d = \frac{DC}{BC}$, daí, tem-se que $D = (0, d, 1-d), E = (1-e,0,e) e F = (f, 1-f, 0)$ (defina as outras coordenadas de maneiras similar). Queremos provar, então, que $\frac{d}{1-d} \cdot \frac{e}{1-e} \cdot \frac{f}{1-f} = 1$ 
+\\
+Para isso, vamos calcular a interseções das retas $AD \cap BE$ e $AD \cap CF$ e queremos que seja o mesmo ponto. Fazendo a equação da reta AD,  tem-se que : 
+$$
+\begin{cases}
+    dz = (1-d)y \\
+    ex = (1-e)z \\
+    fy = (1-f)x
+\end{cases}
+
+$$
+Pois $A = (1:0:0), B = (0:1:0), C = (0:0:1)$. Dessa forma, multiplicando as equações, tem-se que : 
+
+$$
+def \cdot xyz = (1-d)(1-e)(1-f) \cdot xyz
+$$
+
+Que dá soluções caso x,y,z sejam algum deles iguais a zero ou $def = (1-d)(1-e)(1-f)$. Mas, como o ponto de interseção não está sob nenhuma reta definida pelos segmentos do triâgulo (pois isso podia implicar  que um ponto é igual ao vértice do triângulo), podemos dizer que $x,y,z \neq 0$, entãõ, $def = (1-d)(1-e)(1-f)$.
+
+\begin{tcolorbox}[colback=green!5!white,colframe=green!75!black,title=Teorema da Ceviana\emoji{goblin}]
+
+Os pontos que passam por A e também pelo ponto $P = (x_0:y_0:z_0)$ (a ceviana AP) são da forma :
+$$
+(t : y_0 : z_0)
+$$
+Para um t real
+\end{tcolorbox}
+
+Prova : use a equação da reta.
+
+\begin{tcolorbox}[colback=green!5!white,colframe=green!75!black,title=Isogonais baricêtricos\emoji{goblin}]
+O conjugado isogonal de $P = (x:y:z)$ em relação ao triângulo de referência é dado por : 
+$$
+P* = (\frac{a^2}{x} : \frac{b^2}{y} : \frac{c^2}{z} )
+$$
+E o isotômico é dado por : 
+$$
+P^t = (\frac{1}{x} : \frac{1}{y} : \frac{1}{z})
+$$
+
+\end{tcolorbox}
+
+\section{Centros Baricêtricos do Triângulo}
+
+
+\begin{table}[h!]
+    \centering
+    \begin{tabular}{|l|l|}
+        \hline
+        \textbf{Pontos Noáãveis} & \textbf{Coordenadas Baricêntricas} \\ \hline
+        Baricentro            & (1:1:1)    \\ \hline
+        Incentro            & (a:b:c)     \\ \hline
+        Ex-incentro relativo a A            & (-a:b:c)     \\ \hline
+        Ponto Simediano            & $(a^2 : b^2 : c^2)$     \\ \hline
+        Ortocentro            & $(tgA : tgB : tgC)$     \\ \hline
+        Circuncentro            & $(sin2A : sin2B : sin2C )$     \\ \hline
+    \end{tabular}
+    \label{tab:sampleTable}
+\end{table}
+
+Em particular, o Ortocentro e Circuncentro podem ser calculados usando a notação de Conway como : 
+Sendo a notação de Conway definida como(posteriormente iremos enunciar essa notação com mais cautela) : 
+$$
+Sa = \frac{b^2+c^2-a^2}{2}
+$$
+$$
+Sb = \frac{a^2+c^2-b^2}{2}
+$$
+$$
+Sc = \frac{a^2+b^2-c^2}{2}
+$$
+
+$$
+H = (SbSc : SaSc : SaSb) 
+$$
+$$
+O = (a^2Sa : b^2Sb : c^2 Sc)
+$$
+
+\section{Colinearidade, Concorrência,  Perpendicularidade e Retas Paralelas}
+
+\begin{tcolorbox}[colback=green!5!white,colframe=green!75!black,title=Colinearidade baricêntrica(coordenadas homogêneas)\emoji{goblin}]
+
+Os pontos $P_1 = (x_1:y_1:z_1), P_2 = (x_2 : y_2 : z_2), P_3 = (x_3 : y_3 : z_3)$ são colineares se e somente se : 
+\begin{vmatrix}
+x_1 & y_1 & z_1\\
+x_2 & y_2 & z_2 \\
+x_3  & y_3 & z_3
+\end{vmatrix} = 0
+\end{tcolorbox}
+
+A prova disso se dá por você ter um "triângulo" $P_1 P_2 P_3  $ de área zero, o que deterrmina que os três pontos são colineares. Pode-se usar isso  para achar a equação da reta que passa por pontos $P_1, P_2$.
+
+Duas retas são paralelas quando um ponto $P$, que é o "ponto do infinito", tem coordenadas que se somam 0, o que é determinando por retas $u_1 xX+ v_1 y + w_1 z = 0$ e $u_2 x + v_2 y + w_2 z = 0$ e $x + y + z = 0$ tem uma solução não trivial, ocorrendo, de fato, quando 
+$$
+\begin{vmatrix}
+u_1 & v_1 & w_1\\
+u_2 & v_2 & w_2 \\
+1  & 1 & 1
+\end{vmatrix}  
+$$
+= 0, ou seja, possui uma solução não trivial.
+
+\begin{tcolorbox}[colback=green!5!white,colframe=green!75!black,title=Colinearidade baricêntrica(coordenadas homogêneas)\emoji{goblin}]
+
+Três retas $u_i x + v_i y + w_i z = 0$, com $i \in \{1,2,3\}$ são concorrentes se e somente se :
+
+$$
+\begin{vmatrix}
+u_1 & v_1 & w_1\\
+u_2 & v_2 & w_2 \\
+u_3  & v_3 & w_3
+\end{vmatrix} 
+$$ = 0
+\end{tcolorbox}
+
+A prova disso se dá pelo fato de que isso implicaria que o sistema de equações : 
+
+$$
+\begin{cases}
+    u_1 x + v_1 y + w_1 z = 0 \\
+    u_2 x + v_2 y + w_2 z = 0 \\
+    u_3 x + v_3 y + w_3 z = 0
+\end{cases}
+
+$$
+
+possui uma solução não trivial, ou seja, seu determinante, como mostrado dentro da fórmula, igual a zero.
+
+\subsection{Vetores de Deslocamento}
+
+Antes de chegarmos na perpendicularidade, precisa-se passar por vetores deslocamento. Um "vetor" baricêntrico $\overrightarrow{PQ}$é dado por : 
+
+$$
+(q_1 - p_1 : q_2 - p_2 : q_3 - p_3)
+$$
+com $P = (p_1 : p_2 : p_3)$ e $Q = (q_1 : q_2 : q_3)$.
+
+Lembrando que os vetores são feitos com coordendas de P e Q normalizadas.
+Nessa seção, normalmente se leva o circunentro da figura para o vetor nulo quando feitos os cálculos. Como $x+y+z = 1$, as coordenadas dos pontos não mudam, ficando com : 
+
+$$
+\overrightarrow{P} - \overrightarrow{O} = x(\overrightarrow{A} - \overrightarrow{O}) + y(\overrightarrow{B} - \overrightarrow{O}) + z(\overrightarrow{C} - \overrightarrow{O})
+$$
+
+\begin{tcolorbox}[colback=green!5!white,colframe=green!75!black,title=Distância baricêntrica\emoji{goblin}]
+Os pontos do vetor $\overrightarrow{PQ} = (x:y:z)$ tem distância dada por : 
+
+$$
+|\overrightarrow{PQ}|^2 = -a^2yz -  b^2xz - c^2xy
+$$
+\end{tcolorbox}
+
+Prova : a fórmula da distância de um vetor ao quadrado é dada por.
+$$
+|\overrightarrow{PQ}|^2 = (x \overrightarrow{A} + y \overrightarrow{B} + z \overrightarrow{C})^2
+$$
+\begin{center}
+\begin{tikzpicture}[scale=1]
+
+    % Vertices of the triangle ABC
+    \coordinate[label=below:$A$] (A) at (1,0);
+    \coordinate[label=below:$B$] (B) at (3,0);
+    \coordinate[label=above:$C$] (C) at (1.5,2);
+
+    % Draw triangle ABC
+    \draw (A) -- (B) -- (C) -- cycle;
+
+    % Circumcenter O at (2,1.0625)
+    \coordinate[label=right:$O$] (O) at (2,1.0625);
+
+    % Draw vectors from circumcenter O to the vertices
+    \draw[->, thick, red] (O) -- (A);
+    \draw[->, thick, red] (O) -- (B);
+    \draw[->, thick, red] (O) -- (C);
+
+    % Mark points
+    \fill (A) circle (2pt);
+    \fill (B) circle (2pt);
+    \fill (C) circle (2pt);
+    \fill[blue] (O) circle (2pt);
+
+\end{tikzpicture}
+\end{center}
+Que, sabendo que $\overrightarrow{A} \cdot \overrightarrow{A} = R^2$,(levamos o centro da figura para o circuncentro). Além disso, tem-se que : $\overrightarrow{A} \cdot \overrightarrow{B} = R^2 cos2C \xrightarrow{} R^2(1-2sen^2C) = 1 - (\frac{c}{2R})^2 \xrightarrow{} R^2 - \frac{1}{2} c^2$. 
+
+Fazendo os produtos,  tem-se que : 
+
+$$
+\sum_{cyc} x^2 \overrightarrow{A} \cdot \overrightarrow{A} + 2 \cdot \sum_{cyc} xy \overrightarrow{A} \cdot \overrightarrow{B}
+$$
+
+Fazendo umas contas, tem-se que $R^2(x+y+z)^2 - a^2yz - b^2xz - c^2xy$. Como $x+y+z = 0$, conseguimos a fórmula.
+
+\begin{tcolorbox}[colback=green!5!white,colframe=green!75!black,title=Circuncírculo baricêntrico\emoji{goblin}]
+
+O círcucírculo baricêntrico é definido por :
+
+$$
+-a^2yz - b^2xz - c^2xy + (ux + vy + wz)(x+y+z) = 0
+$$
+para reais u,v,w.
+\end{tcolorbox}
+
+Demonstração, fica a cargo do leitor. Usa a fórmula da distância com um centro em $(l,m,n)$ e isola os termos que multiplicam $x,y,z$, colocando eles como as constantes do problema.
+
+\begin{tcolorbox}[colback=green!5!white,colframe=green!75!black,title=Perpendiculares Baricêntricas(coordenadas homogêneas)\emoji{goblin}]
+Os vetores $\overrightarrow{AB} \perp \overrightarrow{CD} $ são perpendiculares, com $\overrightarrow = (x_1 : y_1 : z_1)$, $\overrightarrow{CD} = (x_2 : y_2 : z_2)$ são perpendiculares se e somente se : 
+$$
+0 = a^2(y_1z_2 + y_2z_1) + b^2(x_1z_2 + x_2z_1) + c^2(x_1y_2 = x_2y_1)
+$$
+\end{tcolorbox}
+
+A prova disso se resume a provar que : 
+
+$$
+(x_1 \overrightarrow{A} + y_1 \overrightarrow{B} + z_1 \overrightarrow{C}) \cdot (x_2 \overrightarrow{A} +  y_2 \overrightarrow{B} + z_2 \overrightarrow{C}) = 0
+$$
+
+expandindo, tem-se que :
+
+$$
+R^2(x_1 +  y_1 + z_1)(x_2 + y_2 + z_2) = \frac{1}{2} \cdot \sum_{cyc} ((x_1 y_2 + x_2 y_1) \cdot c^2) 
+$$
+e, como as coordenadas se somam zero, tem-se que o lado da esquerda é zero, nos dando a fórmula desejada.
+
+\section{Identidades de Conway e mais fórmulas}
+Seja S o dobro da área do triângulo, tem-se que (usando $S_{BC} = S_B S_C$: 
+$$
+S^2 = Sab + Sac + sbc \\
+S^2 = Sbc + a^2 Sa\\
+S^2 = \frac{1}{2} \cdot (a^2 Sa + b^2 Sb + c^2 Sc) \\
+S^2 = (bc)^2 - Sa^2
+$$
+
+Podemos também definir(usando o fato de que S é o dobra da área do triângulo) :
+
+$$
+S_{\theta} = S \cdot cotg(\theta)
+$$
+Além disso, pode-se derivar a seguinte fórmula para um ponto P tal que $\angle PBC = \alpha$ e $\angle PCB = \beta$
+\begin{center}
+\begin{tikzpicture}[scale=1]
+
+    % Vertices of the triangle ABC
+    \coordinate[label=below:$A$] (A) at (1,0);
+    \coordinate[label=below:$B$] (B) at (3,0);
+    \coordinate[label=above:$C$] (C) at (1.5,2);
+
+    % Draw triangle ABC
+    \draw (A) -- (B) -- (C) -- cycle;
+
+    % Random point P inside triangle ABC
+    \coordinate[label=right:$P$] (P) at (1.8,0.8);
+
+    % Draw line PB
+    \draw[thick, blue] (P) -- (B);
+    \draw[thick,blue] (P) -- (C);
+
+    % Mark points A, B, C, and P
+    \fill (A) circle (2pt);
+    \fill (B) circle (2pt);
+    \fill (C) circle (2pt);
+    \fill[red] (P) circle (2pt);
+
+    % Draw arc for angle PBC
+    \pic [draw, angle radius=0.5cm, angle eccentricity=1.5, "$\alpha$"] {angle = C--B--P};
+
+    % Draw arc for angle BCP
+    \pic [draw, angle radius=0.5cm, angle eccentricity=1.5, "$\beta$"] {angle = P--C--B};
+
+\end{tikzpicture}
+\end{center}
+O ponto P é dado por : 
+$$
+(-a^2 : Sc + S \beta : Sb + S \alpha )
+$$
+\begin{tcolorbox}[colback=green!5!white,colframe=green!75!black,title=Potência de ponto baricêntrico(coordenadas homogêneas)\emoji{goblin}]
+Dado um círculo :
+$$
+-a^2yz - b^2xz - c^2xy + (x+y+z)(ux+vy+wz) = 0
+$$
+A sua potência de ponto de um ponto de coordendada (x:y:z) é dada por :
+$$
+Pot_P = -a^2yz - b^2xz - c^2xy + (x+y+z)(ux+vy+wz)
+$$
+\end{tcolorbox}
+
+Derivado disso , tem-se que o eixo radical baricêntrico dos círculos: 
+
+$$
+-a^2yz - b^2xz - c^2xy + (x+y+z)(u_1x+v_1y+w_1z) = 0
+-a^2yz - b^2xz - c^2xy + (x+y+z)(u_2x+v_2y+w_2z) = 0
+$$
+
+É dada por : 
+
+$$
+(u_1 - u_2)x + (v_1 - v_2)y + (w_1 - w_2)z = 0
+$$
+Subtraindo as duas equações, conseguimos esse  magnífico resultado \emoji{grinning-face}.
+
+\begin{tcolorbox}[colback=green!5!white,colframe=green!75!black,title=A tangente a (ABC) por A é dada por \emoji{goblin}]
+$$
+b^2 z + c^2 y = 0
+$$
+\end{tcolorbox}
+
+Prova disso se dá transladando  por zero e usando a fórmula da perpendicularidade, com $AO \perp 
+AP$, com P sendo um ponto qualquer na tangente com coordendas $(x:y:z)$.
+
+\section{Problemas para aprender}
+
+\begin{tcolorbox}[colback=purple!5!white,colframe=purple!75!black,title=Problema para aprender\emoji{goblin}]
+Seja ABC um triângulo agudo e escaleno, e sejam M, N e P os pontos médios dos lados BC, CA e AB, respectivamente. Que as mediatrizes de AB e AC intersectem a ceviana AM nos pontos D e E, respectivamente, e que as linhas BD e CE se intersectem no ponto F, dentro do triângulo ABC. Prove que os pontos A, N, F e P estão todos situados em uma mesma circunferência.
+\end{tcolorbox}
+Solução : 
+\begin{center}
+\definecolor{uuuuuu}{rgb}{0.26666666666666666,0.26666666666666666,0.26666666666666666}
+\definecolor{zzttqq}{rgb}{0.6,0.2,0}
+\definecolor{ududff}{rgb}{0.30196078431372547,0.30196078431372547,1}
+\begin{tikzpicture}[line cap=round,line join=round,>=triangle 45,x=1cm,y=1cm, scale= 0.4]
+\clip(-10.598971428571438,-12.943542857142864) rectangle (10.95055238095238,8.048228571428577);
+\fill[line width=2pt,color=zzttqq,fill=zzttqq,fill opacity=0.10000000149011612] (-2.790438095238101,5.563695238095242) -- (-7.6,-4.42) -- (9.505466666666665,-4.425142857142858) -- cycle;
+\draw [line width=2pt,color=zzttqq] (-2.790438095238101,5.563695238095242)-- (-7.6,-4.42);
+\draw [line width=2pt,color=zzttqq] (-7.6,-4.42)-- (9.505466666666665,-4.425142857142858);
+\draw [line width=2pt,color=zzttqq] (9.505466666666665,-4.425142857142858)-- (-2.790438095238101,5.563695238095242);
+\draw [line width=2pt] (0.9533443860772473,-2.390171528620157) circle (8.790898919340583cm);
+\draw [line width=2pt,domain=-10.598971428571438:10.95055238095238] plot(\x,{(--19.277575267120138--4.809561904761899*\x)/-9.983695238095242});
+\draw [line width=2pt,domain=-10.598971428571438:10.95055238095238] plot(\x,{(-35.59726819573691--12.295904761904765*\x)/9.988838095238101});
+\draw [line width=2pt] (0.9527333333333328,-4.422571428571429)-- (-2.790438095238101,5.563695238095242);
+\draw [line width=2pt,domain=-10.598971428571438:10.95055238095238] plot(\x,{(-14.86006934865952--2.4780548550208326*\x)/7.622915440456526});
+\draw [line width=2pt,domain=-10.598971428571438:10.95055238095238] plot(\x,{(--26.914012884069784--1.392773352557692*\x)/-9.07382537858986});
+\draw [line width=2pt] (-0.9185468545804267,1.586761854737543) circle (4.39544945967029cm);
+\begin{scriptsize}
+\draw [fill=ududff] (-2.790438095238101,5.563695238095242) circle (2.5pt);
+\draw[color=ududff] (-2.5876190476190546,6.1087714285714325) node {$A$};
+\draw [fill=ududff] (-7.6,-4.42) circle (2.5pt);
+\draw[color=ududff] (-7.404571428571438,-3.880066666666668) node {$B$};
+\draw [fill=ududff] (9.505466666666665,-4.425142857142858) circle (2.5pt);
+\draw[color=ududff] (9.708285714285713,-3.880066666666668) node {$C$};
+\draw [fill=uuuuuu] (0.9527333333333328,-4.422571428571429) circle (2pt);
+\draw[color=uuuuuu] (1.1645333333333276,-3.93077142857143) node {$M$};
+\draw [fill=uuuuuu] (3.357514285714282,0.569276190476192) circle (2pt);
+\draw[color=uuuuuu] (3.5730095238095196,1.0636476190476207) node {$N$};
+\draw [fill=uuuuuu] (-5.19521904761905,0.5718476190476212) circle (2pt);
+\draw[color=uuuuuu] (-4.996095238095246,1.0636476190476207) node {$P$};
+\draw [fill=uuuuuu] (0.022915440456526694,-1.9419451449791674) circle (2pt);
+\draw[color=uuuuuu] (0.22649523809523214,-1.4462380952380949) node {$D$};
+\draw [fill=uuuuuu] (0.43164128807680613,-3.032369504585166) circle (2pt);
+\draw[color=uuuuuu] (0.6321333333333276,-2.5363904761904768) node {$E$};
+\draw [fill=uuuuuu] (-2.1244835764299292,-2.64002091415545) circle (2pt);
+\draw[color=uuuuuu] (-1.9284571428571498,-2.156104761904762) node {$F$};
+\end{scriptsize}
+\end{tikzpicture}
+\end{center}
+
+Para começar, seja $A = (1:0:0), B =(0:1:0), C= (0:0:1)$. Daí, tem-se que $M = (0:1/2:1/2), N = (1/2 : 0 : 1/2), P = (1/2 : 1/2 : 0)$. Ceviana AM é dada pelos pontos $(t : 1/2 : 1/2)$ usando o teorema da ceviana. Agora, vamos calcular as mediatrizes de AB e AC.
+Os pontos W na mediatriz de AB são dados por $(x:y:z)$ e queremos que $\overrightarrow{AB} \perp \overrightarrow{PW} \rightarrow (1,-1,0) \perp (x-1/2, y-1/2 , z)$.
+E, usando a equação das perpendiculares,  tem-se que : 
+$$
+0 = a^2(y_1 z_2 + y_2 z_1) + b^2(x_1 z_2 + x_2 z_1) + c^2 (x_1 y_2 + x_2 y_1)
+$$
+$$
+0 = a^2(-z + 0) + b^2(z) + c^2(y-1/2 -(x-1/2)) 
+$$
+$$
+0 = z(b^2-a^2) + c^2(y-x)
+$$
+Agora, fazendo para a mediatriz de AC : 
+$\overrightarrow{AC} = (1 : 0 : -1), \overrightarrow{NW} = (x-1/2 : y : z - 1/2)$
+$$
+0 = a^2(0 + y(-1)) + b^2(1(z-1/2) -(x-1/2)) + c^2(y + (z-1/2)(0))
+$$
+$$
+0 = y(c^2-a^2) + b^2(z-x)
+$$
+
+\vskip 0.3cm
+
+Agora, calcular-se-a os pontos D e E usando essas equações e que $\overline{AM} = (t:1/2:1/2)$ : 
+
+$$
+0 = 1/2(b^2-a^2) + c^2(1/2 - t)
+\iff
+0 =b^2 - a^2 + c^2 - 2t c^2
+\iff
+t = \frac{b^2+c^2-a^2}{2c^2}
+$$
+
+Para E :
+$$
+0 = 1/2(c^2-a^2) + b^2(1/2-t)
+\iff
+0 = c^2-a^2+b^2-2tb^2
+\iff
+t = \frac{b^2+c^2-a^2}{2b^2}
+$$
+
+Agora, vamos usar o teorema da ceviana baricêntrica e, com isso, tem-se que os pontos em BD e CE são da forma : 
+
+$$
+\overline{BD} = (\frac{b^2+c^2-a^2}{2c^2} : t : 1/2)
+$$
+$$
+\overline{CE} = (\frac{b^2+c^2-a^2}{2b^2} : 1/2 : t) 
+$$
+Multiplicando todas as coordenadas de BD por $2c^2$ e a de CE por $2b^2$ : 
+$$
+(b^2 + c^2 - a^2 : t : c^2)
+$$
+$$
+(b^2+c^2-a^2 : b^2 : t)
+$$
+
+Nos dando que o ponto F é $ (b^2+c^2-a^2 : b^2 : c^2)$.
+
+Agora, vamos achar as constantes $u,v,w$ da equação da circunferêcia qualquer e provar que F está nessa circunferência.
+
+Lembrando que a equação da circunferência é dada por : 
+
+$$
+-a^2yz -b^2xz -c^2xy + (ux+vy+wz)(x+y+z) = 0
+$$
+
+\\
+\textbf{Ponto A} :
+Usando o ponto A, há muitos chain tomes e sobra que $u = 0.$
+\\
+\textbf{Ponto P}:
+Usando  o ponto P, de coordenadas $(1/2 : 1/2 : 0)$ :
+$$
+-c^2(1/2)(1/2) + (0 + v/2 + 0)(1) = 0
+$$
+\\
+$$
+c^2/2 = v
+$$
+\\
+\textbf{Ponto N}:
+Usando o ponto N, de coordenadas $(1/2 : 0 : 1/2)$:
+$$
+-b^2(1/2)(1/2) + (0 + 0 + w/2)(1) = 0
+$$
+$$
+b^2/2 = w
+$$
+
+Logo, tem-se que a equação do círculo baricêntrico APN é dada por :
+
+$$
+-a^2yz - b^2xz - c^2xy + (-b^2/2 + c^2/2)(x+y+z) = 0
+$$
+
+Sabendo que $F =  (b^2+c^2-a^2 : b^2 : c^2)$, vamos fazer só mais umas continhas : 
+
+$$
+-a^2b^2c^2 - b^2(b^2+c^2-a^2)c^2 - c^2(b^2+c^2-a^2)b^2 + (-b^2/2 - c^2/2)(2b^2+2c^2-a^2) = 0
+$$
+$$
+-a^2b^2c^2 - (b^4c^2 + b^2c^4 - a^2b^2c^2) - (b^4c^2 + b^2c^4 - a^2b^2c^2) + (c^2/2b^2 + c^2b^2/2)(2b^2+2c^2-a^2) = 0
+$$
+
+$$
+a^2b^2C+2 - 2b^4c^2 - 2b^2c^4 + (+b^4c^2 + b^2c^4 - a^2b^2c^2/2 + b^2c^4 + b^4c^2 - a^2b^2c^2) = 0
+$$
+$$
+0 = 0
+$$
+
+Logo, os quatro pontos são cíclicos.
+\begin{tcolorbox}[colback=purple!5!white,colframe=purple!75!black,title=Problema para aprender\emoji{goblin}]
+Sejam $P$ e $Q$ pontos no segmento $BC$ de um triângulo acutângulo $ABC$ tal que $\angle PAB=\angle BCA$ e $\angle CAQ=\angle ABC$. Sejam $M$ e $N$ pontos em $AP$ e $AQ$, respectivamente, tal que $P$ é o ponto médio de $AM$ e $Q$ é o ponto médio de $AN$. Prove que a interseção de $BM$ e $CN$ está no circuncírculo de $ABC$.
+\end{tcolorbox}
+\begin{center}
+\definecolor{ffqqqq}{rgb}{1,0,0}
+\definecolor{qqqqff}{rgb}{0,0,1}
+\definecolor{xdxdff}{rgb}{0.49019607843137253,0.49019607843137253,1}
+\definecolor{zzttqq}{rgb}{0.6,0.2,0}
+\definecolor{ududff}{rgb}{0.30196078431372547,0.30196078431372547,1}
+\begin{tikzpicture}[line cap=round,line join=round,>=triangle 45,x=1cm,y=1cm, scale = 0.5]
+\clip(-8.13347272727273,-13.389254545454547) rectangle (10.56652727272727,4.8267454545454545);
+\fill[line width=2pt,color=zzttqq,fill=zzttqq,fill opacity=0.10000000149011612] (-1.76,3.32) -- (-6.04,-3.7) -- (7.64,-3.86) -- cycle;
+\draw [shift={(-1.76,3.32)},line width=2pt,color=qqqqff,fill=qqqqff,fill opacity=0.1] (0,0) -- (-121.37010276538255:0.66) arc (-121.37010276538255:-84.75786926551197:0.66) -- cycle;
+\draw [shift={(7.64,-3.86)},line width=2pt,color=qqqqff,fill=qqqqff,fill opacity=0.1] (0,0) -- (142.6263310051325:0.66) arc (142.6263310051325:179.3299044777755:0.66) -- cycle;
+\draw [shift={(-1.76,3.32)},line width=2pt,color=ffqqqq,fill=ffqqqq,fill opacity=0.1] (0,0) -- (-96.59091767914914:0.66) arc (-96.59091767914914:-37.37366899486751:0.66) -- cycle;
+\draw [shift={(-6.04,-3.7)},line width=2pt,color=ffqqqq,fill=ffqqqq,fill opacity=0.1] (0,0) -- (-0.6700955222245301:0.66) arc (-0.6700955222245301:58.62989723461745:0.66) -- cycle;
+\draw [line width=2pt,color=zzttqq] (-1.76,3.32)-- (-6.04,-3.7);
+\draw [line width=2pt,color=zzttqq] (-6.04,-3.7)-- (7.64,-3.86);
+\draw [line width=2pt,color=zzttqq] (7.64,-3.86)-- (-1.76,3.32);
+\draw [line width=2pt] (0.8084133732567949,-3.060656586544029) circle (6.878192039433912cm);
+\draw [line width=2pt] (-1.110635286840022,-3.7576533884580114)-- (-1.76,3.32);
+\draw [line width=2pt] (-1.76,3.32)-- (-2.5757955206018117,-3.7405170114549495);
+\draw [line width=2pt] (-2.5757955206018117,-3.7405170114549495)-- (-3.3915910412036236,-10.8010340229099);
+\draw [line width=2pt] (-1.110635286840022,-3.7576533884580114)-- (-0.461270573680044,-10.835306776916022);
+\draw [line width=2pt] (-6.04,-3.7)-- (-0.461270573680044,-10.835306776916022);
+\draw [line width=2pt] (-3.3915910412036236,-10.8010340229099)-- (7.64,-3.86);
+\begin{scriptsize}
+\draw [fill=ududff] (-1.76,3.32) circle (2.5pt);
+\draw[color=ududff] (-1.577472727272729,3.8037454545454548) node {$A$};
+\draw [fill=ududff] (-6.04,-3.7) circle (2.5pt);
+\draw[color=ududff] (-5.86747272727273,-3.2362545454545457) node {$B$};
+\draw [fill=ududff] (7.64,-3.86) circle (2.5pt);
+\draw[color=ududff] (7.816527272727273,-3.390254545454546) node {$C$};
+\draw [fill=xdxdff] (-1.110635286840022,-3.7576533884580114) circle (2.5pt);
+\draw[color=xdxdff] (-0.9394727272727288,-3.2802545454545458) node {$P$};
+\draw [fill=xdxdff] (-2.5757955206018117,-3.7405170114549495) circle (2.5pt);
+\draw[color=xdxdff] (-2.3914727272727294,-3.258254545454546) node {$Q$};
+\draw [fill=ududff] (-3.3915910412036236,-10.8010340229099) circle (2.5pt);
+\draw[color=ududff] (-3.2054727272727295,-10.320254545454546) node {$N$};
+\draw [fill=ududff] (-0.461270573680044,-10.835306776916022) circle (2.5pt);
+\draw[color=ududff] (-0.27947272727272876,-10.364254545454546) node {$M$};
+\end{scriptsize}
+\end{tikzpicture}
+\end{center}
+
+Solução : Sabendo que $\angle BCA = \angle C$ e $\angle CBA = \angle B$, tem-se que, pela fórmula dos ângulos baricêntricos, que : 
+
+Sabendo que $\angle BCA = \angle PAB$ e $\angle CBA = \angle QAC$, concluí-se que $\bigtriangleup PBA \sim \bigtriangleup QAC \sim \bigtriangleup ABC$. Fazendo com que $AB = c, BC = a, AC = b$, tem-se que :
+
+Pela definição das áreas, podemos calcular  o ponto P como : 
+
+$\frac{PB}{AB} = \frac{AB}{BC} \rightarrow \frac{PB} = \frac{c^2}{a}$. Como P é da forma $(0 : 1-p: p)$, com $p = \frac{PB}{BC}$ e, sabendo que $PB = \frac{c^2}{a}$, tem-se que : $P = (0 : 1 - \frac{c^2}{a^2} : \frac{c^2}{a^2}) \iff P = (0: a^2-c^2 : c^2)$. Similarmente, tem-se que $Q = (0 : 1-q : q)$ e que $\frac{QC}{AC} = \frac{AC}{BC} \iff QC = \frac{b^2}{a}$, obtendo que $Q = (0 : b^2 : a^2 - b^2)$.
+
+\\
+
+Tem-se que $M = (-a^2 : 2a^2-2c^2 : c^2)$ e $N = (-a^2 : b^2 : a^2 - b^2)$.
+
+Seja $X = BM \cap CN$, tem-se que, pelo fato de $BM = (-a^2 : t : 2c^2)$ e $CN = (-a^2 : 2b^2 : t)$, obtem-se que $X = (-a^2 :  2b^2 : 2c^2)$. Que está no circuncírculo se e somente se : 
+$$
+a^2yz + b^2xz + c^2xy = 0
+\iff
+a^2 2b^2 2c^2 + b^2 (-a^2)(2c^2) + c^2 (-a^2)(2b^2) = 0
+$$
+$$
+\iff
+4a^2b^2c^2 - 2a^2b^2c^2 - 2a^2b^2c^2 = 0
+\iff
+0 = 0
+$$
+Logo, esse ponto está sim, em (ABC).
+\pagebreak 
+\section{Problemas olímpicos}
+\begin{enumerate}
+    \item (IMO 2012)Dado um triângulo ABC, o ponto J é o centro do círculo ex-inscrito oposto ao vértice A. O ex-incírculo é tangente ao lado BC em M, e os lados AB e AC em K e L, respectivamentee. As retas LM  e BJ se encontram em F e as retas KM e CJ
+    se encontram em G. Seha S o ponto de interseção de AF e BC e T o ponto de interseção de AG e BC. Prove que M é o ponto médio de ST.
+    \item(MOP 2006) O triângulo ABC está inscrito em uma circunferência $\gamma$. O ponto P está na reta
+    BC tal que PA é tangente a $\gamma$. A bissetriz interna de $\angle APB$ corta os lados AB e AC nos pontos
+    D e E, respectivamente. Os segmentos BE e CD se encontram no ponto Q. Dado que a reta PQ
+    passa pelo centro de $\gamma$, calcule o ângulo $\angle BAC$.
+    \item(EGMO 2013) O lado BC do triãngulo ABC é extendido além de C a D tal que CD = BC. O lado CA é extendido além de A até E tal que AE = 2CA. Prove que, se AD = BE, então ABC é um triângulo retângulo.
+    \item (USA TST) Seja ABC um triângulo. Escolha um ponto D no seu interior. Seja $\gamma_1$ um círculo que passa por B e D e $\gamma_2$ um círculo que passa por C e D tal que o outro ponto de interseção dos dois círculos está em AD. Sejam $\gamma_1$ e $\gamma_2$ intersecta-mse em BC em E e F, respectivamente. Seja X a interseção de DF e AB e Y a interseção de DE e AC. Mostre que $XY || BC$.
+    \item (CHINA TST) Dado um triângulo escaleno ABC. Seu incírculo tangencia os lados BC, AC  e AB nos pontos D,E,F, respectivamente. Sejam L,M,N os simétricos de D em relação a EF, de E em relação a FD e de F em relação a DE, respectivamente. Sabe-se que AL intersecta BC em P, a reta BM intersecta CA em Q e a reta CN intersecta AB em R. Prove que P, Q,R são colineares.
+
+    
+\end{enumerate}
+
+
+
+
+\begin{thebibliography}{9}
+\bibitem{texbook}
+Minicurso
+Coloquio de Matemática da Região Sudeste . Coordenadas Baricêntricas:
+Uma Introdução com Ênfase na Geometria Moderna do Triâangulo.
+\bibitem{texbook}
+Chen, Evan. Euclidean Geometry in Mathematical Olympiads.
+\bibitem{texbook}
+Prado, Regis. Nível 3 : Coordenadas baricêntricas. Disponível em : 
+\href{https://www.obm.org.br/content/uploads/2017/01/coordenadas_baricentricas.pdf}{https://www.obm.org.br/content/uploads/2017/01/coordenadas_baricentricas.pdf}
+\end{thebibliography}
+\end{document}
